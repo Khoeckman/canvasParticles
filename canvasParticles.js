@@ -6,9 +6,8 @@
 const Particles = function(selector, options = {}) {
   class Particles {
     constructor(selector, options = {}) {
-      var particles = this;
-
       if (document.querySelector(selector) != null) {
+        var particles = this;
         this.canvas = document.querySelector(selector);
         this.ctx = this.canvas.getContext("2d");
 
@@ -45,8 +44,6 @@ const Particles = function(selector, options = {}) {
     resizeCanvas = function() {
       this.canvas.width = this.canvas.offsetWidth;
       this.canvas.height = this.canvas.offsetHeight;
-      this.rect = this.canvas.getBoundingClientRect();
-
       this.mouseX = -Infinity;
       this.mouseY = -Infinity;
     }
