@@ -36,9 +36,8 @@ const Particles = function(selector, options = {}) {
         });
 
         window.addEventListener("mousemove", function(e) {
-          particles.mouseX = e.clientX - particles.canvas.offsetLeft - this.pageXOffset;
-          particles.mouseY = e.clientY - particles.canvas.offsetTop - this.pageYOffset;
-          console.log(particles.mouseY, e.clientY, particles.canvas.offsetTop, this.pageYOffset);
+          particles.mouseX = e.clientX - particles.canvas.offsetLeft + this.pageXOffset;
+          particles.mouseY = e.clientY - particles.canvas.offsetTop + this.pageYOffset;
         });
       }
     }
