@@ -4,14 +4,13 @@
 In an HTML canvas, a bunch of floating particles that connect when they are close to eachother.<br>
 Create a smooth, interactive background by simply placing a `canvas` on the background.
 
-## How to use
-
+## Implementation
 Particles will be drawn on this `canvas` element
 ```html
 <canvas class="particles"></canvas>
 ```
 
-Stretch canvas over the background and place it behind all elements.
+Stretch the `canvas` over the background and place it behind all elements.
 ```css
 canvas.particles {
   position: absolute;
@@ -22,13 +21,11 @@ canvas.particles {
 ```
 
 Import `Particle` function
-
 ```html
-<script src="./js/canvasParticles.js"></script>
+<script src="https://raw.githubusercontent.com/Khoeckman/canvasParticles/main/canvasParticles.js"></script>
 ```
 
 `script` tag in the `body`.
-
 ```js
 // Initialize the `Particle` function.
 window.addEventListener("load", function() {
@@ -59,7 +56,6 @@ window.addEventListener("load", function() {
 ```
 
 ## Simplified example
-
 ```html
 <head>
 <style>
@@ -71,13 +67,14 @@ window.addEventListener("load", function() {
     position: absolute;
     width: 100%;
     height: 100%;
+    z-index: -1;
   }
 </style>
 </head>
 <body>
   <canvas class="particles"></canvas>
 
-<script src="./js/canvasParticles.js"></script>
+<script src="https://raw.githubusercontent.com/Khoeckman/canvasParticles/main/canvasParticles.js"></script>
 <script>
   window.addEventListener("load", Particles(".particles"));
 </script>
