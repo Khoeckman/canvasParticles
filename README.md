@@ -11,11 +11,13 @@ Particles will be drawn on this `canvas` element
 <canvas class="particles"></canvas>
 ```
 
+Stretch canvas over the background and place it behind all elements.
 ```css
 canvas.particles {
   position: absolute;
   width: 100%;
   height: 100%;
+  z-index: -1;
 }
 ```
 
@@ -61,6 +63,10 @@ window.addEventListener("load", function() {
 ```html
 <head>
 <style>
+  body {
+    margin: 0;
+  }
+  
   canvas.particles {
     position: absolute;
     width: 100%;
