@@ -29,7 +29,7 @@ Add another `<script>` element in the `<body>` with the `Particles()` function t
 <script>
   // Initialize the particles on the `.particles` element.
   window.addEventListener("load", function() {
-    const particleCanvas = Particles(".particles", {
+    const particleCanvas = Particles("canvas.particles", {
       background: "#0e1013", // default: "#000"
       particleColor: "#ffff74", // default: "#fff"
       pixelsPerParticle: 15000, // default: 10000
@@ -78,7 +78,7 @@ Add another `<script>` element in the `<body>` with the `Particles()` function t
 <!-- Link to canvasParticles.js file -->
 <script src="canvasParticles.js"></script>
 <script>
-  window.addEventListener("load", Particles(".particles"));
+  window.addEventListener("load", Particles("canvas.particles"));
 </script>
 </body>
 ```
