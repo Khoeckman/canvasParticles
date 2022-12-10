@@ -151,13 +151,13 @@ const Particles = function(selector, options = {}) {
 
       for (let p of this.particles) {
         if (this.isInbounds(p)) {
-          if (true) {
-            this.ctx.beginPath();
-            this.ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
-            this.ctx.fill();
-            this.ctx.closePath();
+          this.ctx.beginPath();
+          this.ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
+          this.ctx.fill();
+          this.ctx.closePath();
 
-          } else this.ctx.fillRect(p.x - p.size, p.y - p.size, p.size * 2, p.size * 2);
+          // Draw squares instead of circles
+          //this.ctx.fillRect(p.x - p.size, p.y - p.size, p.size * 2, p.size * 2);
         }
       }
 
