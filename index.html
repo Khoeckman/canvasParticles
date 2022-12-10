@@ -4,37 +4,38 @@
     <meta charset="UTF-8">
   <title>canvasParticles</title>
 <style>
-body {
-  margin: 0;
-}
+  body {
+    margin: 0;
+  }
 
-canvas {
-  position: absolute;
-  width: 100%;
-  height: 150%;
-  z-index: -1;
-}
+  canvas {
+    position: absolute;
+    width: 100%;
+    height: 150%;
+    z-index: -1;
+  }
 </style>
 </head>
 <body>
   <canvas class="particles"></canvas>
-</body>
+
 <!-- Link to canvasParticles.js file -->
 <script src="canvasParticles.js"></script>
 <script>
-window.addEventListener("load", function() {
-  Particles(".particles", {
-    background: "#151019", // default: "#000"
-    particleColor: "#88c8ff", // default: "#fff"
-    pixelsPerParticle: 15000, // default: 10000
-    connectDistance: null, // default: 125
-    interact: true, // default: false
-    gravity: {
-      enabled: true, // default: false
-      repulsive: 0.5, // default: 0
-      pulling: 0.25 // default: 0
-    }
+  window.addEventListener("load", function() {
+    Particles(".particles", {
+      background: "#151019", // default: "#000"
+      particleColor: "#88c8ff", // default: "#fff"
+      pixelsPerParticle: 15000, // default: 10000
+      connectDistance: null, // default: 125
+      interact: true, // default: false
+      gravity: {
+        enabled: true, // default: false
+        repulsive: 0.5, // default: 0
+        pulling: 0.25 // default: 0
+      }
+    });
   });
-});
 </script>
+</body>
 </html>
