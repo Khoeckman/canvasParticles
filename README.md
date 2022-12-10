@@ -76,7 +76,8 @@ window.addEventListener("load", function() {
 <body>
   <canvas class="particles"></canvas>
 
-<script src="https://raw.githubusercontent.com/Khoeckman/canvasParticles/main/canvasParticles.js"></script>
+<!-- Link to canvasParticles.js file -->
+<script src="canvasParticles.js"></script>
 <script>
   window.addEventListener("load", Particles(".particles"));
 </script>
