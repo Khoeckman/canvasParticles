@@ -16,6 +16,7 @@ const Particles = function(selector, options = {}) {
           particleColor: options.particleColor ?? "#fff",
           pixelsPerParticle: options.pixelsPerParticle ?? 10000,
           connectDistance: options.connectDistance ?? 125,
+          interact: options.interact ?? false,
           gravity: {
             enabled: options.gravity?.enabled ?? false,
             repulsive: options.gravity?.repulsive ?? 0,
@@ -29,7 +30,6 @@ const Particles = function(selector, options = {}) {
         requestAnimationFrame(() => this.animation());
 
         window.addEventListener("resize", function(e) {
-          console.log("resize", particles);
           particles.resizeCanvas();
           particles.newParticles();
         });
@@ -135,9 +135,11 @@ const Particles = function(selector, options = {}) {
         p.x = p.posX + p.offX + this.offX;
         p.y = p.posY + p.offY + this.offY;
 
-        // Make the mouse actually move the particles their position instead of just visually
-        //p.posX = p.x - this.offX;
-        //p.posY = p.y - this.offY;
+        if (this.options.interact) {
+          // Make the mouse actually move the particles their position instead of just visually
+          p.posX = p.x - this.offX;
+          p.posY = p.y - this.offY;
+        }
       }
     }
 
@@ -175,17 +177,6 @@ const Particles = function(selector, options = {}) {
               this.ctx.lineTo(b.x, b.y);
               this.ctx.stroke();
             }
-
-            // Draws lines between the real positions of the particles
-            /*let dist = Math.hypot(a.posX - b.posX, a.posY - b.posY)
-
-            if (dist < this.options.connectDistance) {
-              this.ctx.strokeStyle = this.options.particleColor + (~~(Math.min(this.options.connectDistance / dist - 1, 1) * 255)).toString(16).padStart(2, 0);
-              this.ctx.beginPath();
-              this.ctx.moveTo(a.x, a.y);
-              this.ctx.lineTo(b.x, b.y);
-              this.ctx.stroke();
-            }*/
           }
         }
       }
