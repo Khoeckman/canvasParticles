@@ -22,7 +22,8 @@ canvas.particles {
 
 Import `Particle` function
 ```html
-<script src="https://raw.githubusercontent.com/Khoeckman/canvasParticles/main/canvasParticles.js"></script>
+<!-- Link to canvasParticles.js file -->
+<script src="canvasParticles.js"></script>
 ```
 
 `script` tag in the `body`.
