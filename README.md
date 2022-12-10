@@ -34,6 +34,7 @@ window.addEventListener("load", function() {
     particleColor: "#ffff74", // default: "#fff"
     pixelsPerParticle: 15000, // default: 10000
     connectDistance: 150, // default: 125
+    interact: true, // default: false
     gravity: {
       enabled: true, // default: false
       repulsive: 0.25, // default: 0
