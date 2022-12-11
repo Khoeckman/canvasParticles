@@ -97,19 +97,24 @@ const Particles = function(selector, options = {}) {
 
             if (dist < this.options.connectDistance / .5) {
               // apply repulsive force on all particles close together
-              a.posX += Math.cos(angle) * distRatio ** 2 * -this.options.gravity.repulsive;
-              a.posY += Math.sin(angle) * distRatio ** 2 * -this.options.gravity.repulsive;
-
-              b.posX += Math.cos(angle) * distRatio ** 2 * this.options.gravity.repulsive;
-              b.posY += Math.sin(angle) * distRatio ** 2 * this.options.gravity.repulsive;
+              let grav = distRatio ** 2 * this.options.gravity.repulsive,
+                  gravX = Math.cos(angle) * grav,
+                  gravY = Math.sin(angle) * grav;
+              a.posX -= gravX;
+              a.posY -= gravY;
+              b.posX += gravX;
+              b.posY += gravY;
 
             } else {
+              let grav = distRatio ** 2 * this.options.gravity.pulling,
+                  gravX = Math.cos(angle) * grav,
+                  gravY = Math.sin(angle) * grav;
               // apply pulling force on all particles not close together
-              a.posX += Math.cos(angle) * distRatio ** 2 * this.options.gravity.pulling;
-              a.posY += Math.sin(angle) * distRatio ** 2 * this.options.gravity.pulling;
+              a.posX += gravX;
+              a.posY += gravY;
 
-              b.posX += Math.cos(angle) * distRatio ** 2 * -this.options.gravity.pulling;
-              b.posY += Math.sin(angle) * distRatio ** 2 * -this.options.gravity.pulling;
+              b.posX -= gravX;
+              b.posY -= gravY;
             }
           }
         }
@@ -191,7 +196,7 @@ const Particles = function(selector, options = {}) {
       );
     }
 
-    animation = function() {
+   animation = function() {
       requestAnimationFrame(() => this.animation());
 
       if (++this.count >= 1) {
