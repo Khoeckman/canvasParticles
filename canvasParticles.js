@@ -106,13 +106,12 @@ const Particles = function(selector, options = {}) {
               b.posY += gravY;
 
             } else {
+              // apply pulling force on all particles not close together
               let grav = distRatio ** 2 * this.options.gravity.pulling,
                   gravX = Math.cos(angle) * grav,
                   gravY = Math.sin(angle) * grav;
-              // apply pulling force on all particles not close together
               a.posX += gravX;
               a.posY += gravY;
-
               b.posX -= gravX;
               b.posY -= gravY;
             }
@@ -196,7 +195,7 @@ const Particles = function(selector, options = {}) {
       );
     }
 
-   animation = function() {
+    animation = function() {
       requestAnimationFrame(() => this.animation());
 
       if (++this.count >= 1) {
