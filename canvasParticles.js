@@ -149,12 +149,13 @@ const Particles = function(selector, options = {}) {
 
       for (let p of this.particles) {
         if (this.isInbounds(p)) {
+          // Draw pixels
           this.ctx.beginPath();
           this.ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
           this.ctx.fill();
           this.ctx.closePath();
 
-          // Draw squares instead of circles
+          // Draw squares
           //this.ctx.fillRect(p.x - p.size, p.y - p.size, p.size * 2, p.size * 2);
         }
       }
@@ -169,7 +170,10 @@ const Particles = function(selector, options = {}) {
             let dist = Math.hypot(a.x - b.x, a.y - b.y);
 
             if (dist < this.options.connectDistance) {
-              this.ctx.strokeStyle = this.options.particleColor + (~~(Math.min(this.options.connectDistance / dist - 1, 1) * 255)).toString(16).padStart(2, 0);
+              this.ctx.strokeStyle = this.options.particleColor +
+                Math.floor(Math.min(this.options.connectDistance / dist - 1, 1) * 255)
+                .toString(16)
+                .padStart(2, 0);
               this.ctx.beginPath();
               this.ctx.moveTo(a.x, a.y);
               this.ctx.lineTo(b.x, b.y);
