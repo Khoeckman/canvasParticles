@@ -20,7 +20,6 @@ canvas.particles {
 }
 ```
 
-Import the `Particle` library.<br>
 Add a `<script>` element in the `<body>` to import the *canvasParticles.js* file.<br>
 Add another `<script>` element in the `<body>` with the `Particles()` function to initialize .
 ```html
