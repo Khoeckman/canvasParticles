@@ -4,7 +4,7 @@
 "use strict";
 
 const Particles = function(selector, options = {}) {
-  class Particles {
+  return new class {
     constructor(selector, options = {}) {
       if (document.querySelector(selector) != null) {
         var particles = this;
@@ -22,7 +22,7 @@ const Particles = function(selector, options = {}) {
             repulsive: options.gravity?.repulsive ?? 0,
             pulling: options.gravity?.pulling ?? 0
           }
-        }
+        };
         this.canvas.style.background = this.options.background ?? "#000";
 
         this.resizeCanvas();
@@ -66,22 +66,16 @@ const Particles = function(selector, options = {}) {
     }
 
     createParticle = function(posX, posY, dir, vel, size) {
-      var posX = posX - this.offX || Math.random() * this.width,
-          posY = posY - this.offY || Math.random() * this.height,
-          dir = dir || Math.random() * 2 * Math.PI,
-          vel = vel || .5 + Math.random() * .5,
-          size = size || .5 + Math.random() ** 5 * 2;
-
       this.particles.push({
         x: posX,
         y: posY,
-        posX,
-        posY,
+        posX: posX - this.offX || Math.random() * this.width,
+        posY: posY - this.offY || Math.random() * this.height,
         offX: 0,
         offY: 0,
-        dir,
-        vel,
-        size
+        dir: dir || Math.random() * 2 * Math.PI,
+        vel: vel || .5 + Math.random() * .5,
+        size: size || .5 + Math.random() ** 5 * 2
       });
     }
 
@@ -204,6 +198,5 @@ const Particles = function(selector, options = {}) {
         this.render();
       }
     }
-  }
-  return new Particles(selector, options);
+  }(selector, options);
 }
