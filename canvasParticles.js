@@ -38,6 +38,13 @@ const Particles = function(selector, options = {}) {
           particles.mouseX = e.clientX - particles.canvas.offsetLeft + this.pageXOffset;
           particles.mouseY = e.clientY - particles.canvas.offsetTop + this.pageYOffset;
         });
+
+        window.addEventListener("wheel", function(e) {
+          setTimeout(function() {
+            particles.mouseX = e.clientX - particles.canvas.offsetLeft + this.pageXOffset;
+            particles.mouseY = e.clientY - particles.canvas.offsetTop + this.pageYOffset;
+          }, 100);
+        });
       }
     }
 
