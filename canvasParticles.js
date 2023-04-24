@@ -5,47 +5,48 @@
 
 const Particles = function(selector, options = {}) {
   return new class {
-    constructor(selector, options = {}) {
-      if (document.querySelector(selector) != null) {
-        var particles = this;
-        this.canvas = document.querySelector(selector);
-        this.ctx = this.canvas.getContext("2d");
+    constructor(selector = "canvas", options = {}) {
+      if (typeof document.querySelector(selector) !== "string") {
+        throw new TypeError('"selector" is not a string');
+      }
 
-        this.options = {
-          background: options.background ?? "#000000",
-          particleColor: options.particleColor ?? "#ffffff",
-          pixelsPerParticle: options.pixelsPerParticle ?? 10000,
-          connectDistance: options.connectDistance ?? 125,
-          interact: options.interact ?? false,
-          gravity: {
-            enabled: options.gravity?.enabled ?? false,
-            repulsive: options.gravity?.repulsive ?? 0,
-            pulling: options.gravity?.pulling ?? 0
-          }
-        };
-        this.canvas.style.background = this.options.background ?? "#000";
+      this.canvas = document.querySelector(selector);
+      this.ctx = this.canvas.getContext("2d");
 
+      this.options = {
+        background: options.background ?? "#000000",
+        particleColor: options.particleColor ?? "#ffffff",
+        pixelsPerParticle: options.pixelsPerParticle ?? 10000,
+        connectDistance: options.connectDistance ?? 125,
+        interact: options.interact ?? false,
+        gravity: {
+          enabled: options.gravity?.enabled ?? false,
+          repulsive: options.gravity?.repulsive ?? 0,
+          pulling: options.gravity?.pulling ?? 0
+        }
+      };
+      this.canvas.style.background = this.options.background ?? "#000";
+
+      this.resizeCanvas();
+      this.newParticles();
+      requestAnimationFrame(() => this.animation());
+
+      window.addEventListener("resize", e => {
         this.resizeCanvas();
         this.newParticles();
-        requestAnimationFrame(() => this.animation());
+      });
 
-        window.addEventListener("resize", function(e) {
-          particles.resizeCanvas();
-          particles.newParticles();
-        });
+      window.addEventListener("mousemove", e => {
+        this.mouseX = e.clientX - this.canvas.offsetLeft + window.pageXOffset;
+        this.mouseY = e.clientY - this.canvas.offsetTop + window.pageYOffset;
+      });
 
-        window.addEventListener("mousemove", function(e) {
-          particles.mouseX = e.clientX - particles.canvas.offsetLeft + this.pageXOffset;
-          particles.mouseY = e.clientY - particles.canvas.offsetTop + this.pageYOffset;
-        });
-
-        window.addEventListener("wheel", function(e) {
-          setTimeout(function() {
-            particles.mouseX = e.clientX - particles.canvas.offsetLeft + this.pageXOffset;
-            particles.mouseY = e.clientY - particles.canvas.offsetTop + this.pageYOffset;
-          }, 100);
-        });
-      }
+      window.addEventListener("wheel", e => {
+        setTimeout(() => {
+          this.mouseX = e.clientX - this.canvas.offsetLeft + window.pageXOffset;
+          this.mouseY = e.clientY - this.canvas.offsetTop + window.pageYOffset;
+        }, 100);
+      });
     }
 
     resizeCanvas = function() {
@@ -90,60 +91,60 @@ const Particles = function(selector, options = {}) {
       if (this.options.gravity?.enabled) {
         for (let i = 0; i < this.len; i++) {
           for (let j = i + 1; j < this.len; j++) {
-            let a = this.particles[i],
-                b = this.particles[j],
-                dist = Math.hypot(a.posX - b.posX, a.posY - b.posY),
+            let pointA = this.particles[i],
+                pointB = this.particles[j],
+                dist = Math.hypot(pointA.posX - pointB.posX, pointA.posY - pointB.posY),
                 distRatio = this.options.connectDistance / Math.max(dist, this.options.connectDistance / 20),
-                angle = Math.atan2(b.posY - a.posY, b.posX - a.posX);
+                angle = Math.atan2(pointB.posY - pointA.posY, pointB.posX - pointA.posX);
 
             if (dist < this.options.connectDistance / .5) {
               // apply repulsive force on all particles close together
               let grav = distRatio ** 2 * this.options.gravity.repulsive,
                   gravX = Math.cos(angle) * grav,
                   gravY = Math.sin(angle) * grav;
-              a.posX -= gravX;
-              a.posY -= gravY;
-              b.posX += gravX;
-              b.posY += gravY;
+              pointA.posX -= gravX;
+              pointA.posY -= gravY;
+              pointB.posX += gravX;
+              pointB.posY += gravY;
 
             } else {
               // apply pulling force on all particles not close together
               let grav = distRatio ** 2 * this.options.gravity.pulling,
                   gravX = Math.cos(angle) * grav,
                   gravY = Math.sin(angle) * grav;
-              a.posX += gravX;
-              a.posY += gravY;
-              b.posX -= gravX;
-              b.posY -= gravY;
+              pointA.posX += gravX;
+              pointA.posY += gravY;
+              pointB.posX -= gravX;
+              pointB.posY -= gravY;
             }
           }
         }
       }
 
-      for (let p of this.particles) {
-        p.dir = (p.dir + Math.random() * .04 - .02) % (2 * Math.PI);
-        p.posX = (p.posX + Math.sin(p.dir) * p.vel % this.width + this.width) % this.width;
-        p.posY = (p.posY + Math.cos(p.dir) * p.vel % this.height + this.height) % this.height;
+      for (let point of this.particles) {
+        point.dir = (point.dir + Math.random() * .04 - .02) % (2 * Math.PI);
+        point.posX = (point.posX + Math.sin(point.dir) * point.vel % this.width + this.width) % this.width;
+        point.posY = (point.posY + Math.cos(point.dir) * point.vel % this.height + this.height) % this.height;
 
-        let offX = p.posX + this.offX - this.mouseX,
-            offY = p.posY + this.offY - this.mouseY,
+        let offX = point.posX + this.offX - this.mouseX,
+            offY = point.posY + this.offY - this.mouseY,
             distRatio = this.options.connectDistance / Math.hypot(offX, offY) * 2 / 3;
 
         if (distRatio > 2 / 3) {
-          p.offX += (distRatio * offX - offX - p.offX) / 4;
-          p.offY += (distRatio * offY - offY - p.offY) / 4;
+          point.offX += (distRatio * offX - offX - point.offX) / 4;
+          point.offY += (distRatio * offY - offY - point.offY) / 4;
 
         } else {
-          p.offX -= p.offX / 4;
-          p.offY -= p.offY / 4;
+          point.offX -= point.offX / 4;
+          point.offY -= point.offY / 4;
         }
-        p.x = p.posX + p.offX + this.offX;
-        p.y = p.posY + p.offY + this.offY;
+        point.x = point.posX + point.offX + this.offX;
+        point.y = point.posY + point.offY + this.offY;
 
         if (this.options.interact) {
           // Make the mouse actually move the particles their position instead of just visually
-          p.posX = p.x - this.offX;
-          p.posY = p.y - this.offY;
+          point.posX = point.x - this.offX;
+          point.posY = point.y - this.offY;
         }
       }
     }
@@ -154,27 +155,27 @@ const Particles = function(selector, options = {}) {
       this.ctx.lineWidth = 1;
       this.ctx.lineCap = "round";
 
-      for (let p of this.particles) {
-        if (this.isInbounds(p)) {
+      for (let point of this.particles) {
+        if (this.isIn(point)) {
           // Draw pixels
           this.ctx.beginPath();
-          this.ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
+          this.ctx.arc(point.x, point.y, point.size, 0, 2 * Math.PI);
           this.ctx.fill();
           this.ctx.closePath();
 
           // Draw squares
-          //this.ctx.fillRect(p.x - p.size, p.y - p.size, p.size * 2, p.size * 2);
+          //this.ctx.fillRect(point.x - point.size, point.y - point.size, point.size * 2, point.size * 2);
         }
       }
 
       for (let i = 0; i < this.len; i++) {
         for (let j = i + 1; j < this.len; j++) {
-          let a = this.particles[i],
-              b = this.particles[j];
+          let pointA = this.particles[i],
+              pointB = this.particles[j];
 
-          if (this.isInbounds(a) || this.isInbounds(b)) {
+          if (this.isIn(pointA) || this.isIn(pointB)) {
             // Draw lines between the visual positions of the particles
-            let dist = Math.hypot(a.x - b.x, a.y - b.y);
+            let dist = Math.hypot(pointA.x - pointB.x, pointA.y - pointB.y);
 
             if (dist < this.options.connectDistance) {
               this.ctx.strokeStyle = this.options.particleColor +
@@ -182,8 +183,8 @@ const Particles = function(selector, options = {}) {
                 .toString(16)
                 .padStart(2, 0);
               this.ctx.beginPath();
-              this.ctx.moveTo(a.x, a.y);
-              this.ctx.lineTo(b.x, b.y);
+              this.ctx.moveTo(pointA.x, pointA.y);
+              this.ctx.lineTo(pointB.x, pointB.y);
               this.ctx.stroke();
             }
           }
@@ -191,12 +192,12 @@ const Particles = function(selector, options = {}) {
       }
     }
 
-    isInbounds = function(p) {
+    isIn = function(point) {
       return !(
-          p.posX < Math.abs(this.offX) ||
-          p.posX > this.width - Math.abs(this.offX) ||
-          p.posY < Math.abs(this.offY) ||
-          p.posY > this.height - Math.abs(this.offY)
+          point.posX < Math.abs(this.offX) ||
+          point.posX > this.width - Math.abs(this.offX) ||
+          point.posY < Math.abs(this.offY) ||
+          point.posY > this.height - Math.abs(this.offY)
       );
     }
 
