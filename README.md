@@ -29,8 +29,8 @@ Add another `<script>` element in the `<body>` with the `Particles()` function t
   // Initialize the particles on the `.particles` element.
   window.addEventListener("load", function() {
     const particleCanvas = Particles("canvas.particles", {
-      background: "#0e1013", // default: "#000"
-      particleColor: "#ffff74", // default: "#fff"
+      background: "#0e1013", // default: "#000000"
+      particleColor: "#ffff74", // default: "#ffffff"
       pixelsPerParticle: 15000, // default: 10000
       connectDistance: 150, // default: 125
       interact: true, // default: false
