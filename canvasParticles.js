@@ -6,8 +6,12 @@
 const Particles = function(selector, options = {}) {
   return new class {
     constructor(selector = "canvas", options = {}) {
-      if (typeof document.querySelector(selector) !== "string") {
+      if (typeof selector !== "string") {
         throw new TypeError('"selector" is not a string');
+      }
+
+      if (typeof document.querySelector(selector) !== "object") {
+        throw new ReferenceError('"selector" in not defined');
       }
 
       this.canvas = document.querySelector(selector);
