@@ -21,7 +21,7 @@ canvas.particles {
 ```
 
 Add a `<script>` element in the `<body>` to import the *canvasParticles.js* file.<br>
-Add another `<script>` element in the `<body>` with the `Particles()` function to initialize .
+Add another `<script>` element in the `<body>` with the `Particles()` function to initialize the imported script.
 ```html
 <!-- Link to canvasParticles.js file -->
 <script src="canvasParticles.js"></script>
