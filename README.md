@@ -1,8 +1,8 @@
 # canvasParticles
 
 ## Description
-In an HTML canvas, a bunch of floating particles that connect when they are close to eachother.<br>
-Create a smooth, interactive background by simply placing a `canvas` on the background.
+In an HTML canvas, a bunch of floating particles are drawn that connect with a line when they are close to eachother.<br>
+Creating a smooth, interactive background by simply placing a `canvas` over the background.
 
 ## Implementation
 Particles will be drawn on this `<canvas>` element
@@ -26,32 +26,35 @@ Add another `<script>` element in the `<body>` with the `Particles()` function t
 <!-- Link to canvasParticles.js file -->
 <script src="canvasParticles.js"></script>
 <script>
-  // Initialize the particles on the `.particles` element.
-  window.addEventListener("load", function() {
-    const particleCanvas = Particles("canvas.particles", {
-      background: "#0e1013", // default: "#000000"
-      particleColor: "#ffff74", // default: "#ffffff"
-      pixelsPerParticle: 15000, // default: 10000
-      connectDistance: 150, // default: 125
-      interact: true, // default: false
-      gravity: {
-        enabled: true, // default: false
-        repulsive: 0.25, // default: 0
-        pulling: 0.25 // default: 0
+  "use strict";
+  
+  (function() {
+    // Initialize the particles on the `.particles` element.
+    window.addEventListener("DOMContentLoaded", function() {
+      const particleCanvas = Particles("canvas.particles", {
+        background: "#0e1013", // default: "#000000" (must be 6 hexadecimals)
+        particleColor: "#ffff74", // default: "#ffffff" (must be 6 hexadecimals)
+        pixelsPerParticle: 15000, // default: 10000
+        connectDistance: 150, // default: 125
+        interact: true, // default: false
+        gravity: {
+          enabled: true, // default: false (requires relatively a lot more performance when enabled)
+          repulsive: 0.25, // default: 0 (usually between 0.05 and 0.50)
+          pulling: 0.25 // default: 0 (usually between 0.05 and 0.50)
+        }
+      });
+
+      // Dynamically resize the <canvas> to the height of the <body>.
+      const resize = function() {
+        let bodyHeight = document.body.querySelector("main").offsetHeight;
+        particleCanvas.canvas.height = bodyHeight;
+        particleCanvas.resizeCanvas();
+        particleCanvas.newParticles();
       }
+      window.addEventListener("resize", resize);
+      resize();
     });
-
-    // Dynamically resize the <canvas> to the height of the <body>.
-    window.addEventListener("resize", resize);
-    resize();
-
-    function resize() {
-      let bodyHeight = document.body.querySelector("main").offsetHeight;
-      particleCanvas.canvas.height = bodyHeight;
-      particleCanvas.resizeCanvas();
-      particleCanvas.newParticles();
-    }
-  });
+  })();
 </script>
 ```
 
@@ -75,9 +78,9 @@ Add another `<script>` element in the `<body>` with the `Particles()` function t
   <canvas class="particles"></canvas>
 
 <!-- Link to canvasParticles.js file -->
-<script src="canvasParticles.js"></script>
+<script src="canvasParticles.js" defer></script> <!-- Use defer instead of DOMContentLoaded -->
 <script>
-  window.addEventListener("load", Particles("canvas.particles"));
+  Particles("canvas.particles");
 </script>
 </body>
 ```
