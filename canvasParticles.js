@@ -12,8 +12,8 @@ const Particles = function(selector, options = {}) {
         this.ctx = this.canvas.getContext("2d");
 
         this.options = {
-          background: options.background ?? "#000",
-          particleColor: options.particleColor ?? "#fff",
+          background: options.background ?? "#000000",
+          particleColor: options.particleColor ?? "#ffffff",
           pixelsPerParticle: options.pixelsPerParticle ?? 10000,
           connectDistance: options.connectDistance ?? 125,
           interact: options.interact ?? false,
