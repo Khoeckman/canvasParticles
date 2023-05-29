@@ -26,7 +26,7 @@ Javascript use
 ```js
 // Export to global scope
 const Particles = function Particles(selector, options = {}) {
-  return new Class{/* ... */ }(selector, options)
+  return new Class{/* ... */ }(selector, options);
 }
 
 // Initialization
