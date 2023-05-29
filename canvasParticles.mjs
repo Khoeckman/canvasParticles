@@ -1,4 +1,4 @@
-// Copyright (c) 2022 Kyle Hoeckman
+// Copyright (c) 2022, 2023 Kyle Hoeckman
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
 export const Particles = function (selector, options = {}) {
