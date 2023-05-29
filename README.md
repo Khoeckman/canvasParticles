@@ -22,9 +22,9 @@ canvas.particles {
 }
 ```
 
-Javascript use
+Javascript using global scope
 ```js
-// Export to global scope
+// Export to global scope (in ./canvasParticles.js)
 const Particles = function Particles(selector, options = {}) {
   return new Class{/* ... */ }(selector, options);
 }
@@ -35,11 +35,26 @@ const options = {}; // See below (optional parameter)
 const particles = Particles(selector, options);
 ```
 
+Javascript using modules
+```js
+// Export to global scope (in ./canvasParticles.mjs)
+export const Particles = function Particles(selector, options = {}) {
+  return new Class{/* ... */ }(selector, options);
+}
+
+// Import and initialization
+import { Particles } from "./canvasParticles.mjs";
+
+const selector = ""; // Query Selector for the canvas
+const options = {}; // See below (optional parameter)
+const particles = Particles(selector, options);
+```
+
 Add a `<script>` element (in the `<head>`) to import the *canvasParticles.js* file.<br>
 Add a `<script>` element (in the `<body>`) using the `Particles()` function to initialize the imported script.
 ```html
 <!-- Link to canvasParticles.js file -->
-<script src="canvasParticles.js"></script>
+<script src="./canvasParticles.js"></script>
 <script>
   "use strict";
   
@@ -95,7 +110,7 @@ What your full .html file would look like
     }
   </style>
   <!-- Link to canvasParticles.js file -->
-  <script src="canvasParticles.js"></script>
+  <script src="./canvasParticles.js"></script>
 </head>
   
 <body>
