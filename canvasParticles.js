@@ -1,4 +1,4 @@
-// Copyright (c) 2022, 2023 Kyle Hoeckman
+// Copyright (c) 2023 Kyle Hoeckman, MIT License
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
 "use strict";
