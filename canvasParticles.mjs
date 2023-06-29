@@ -164,12 +164,11 @@ export const canvasParticles = function (selector, options = {}) {
             const pointA = this.particles[i];
             const pointB = this.particles[j];
             const dist = Math.hypot(pointA.posX - pointB.posX, pointA.posY - pointB.posY);
-            const distRatio = 1 / Math.max(dist, 10);
             const angle = Math.atan2(pointB.posY - pointA.posY, pointB.posX - pointA.posX);
 
             if (dist < this.options.particles.connectDist / 2) {
               // apply repulsive force on all particles close together
-              const grav = distRatio ** 1.8 * this.options.particles.connectDist * this.options.gravity.repulsive;
+              const grav = (1 / Math.max(dist, 10)) ** 1.8 * this.options.particles.connectDist * this.options.gravity.repulsive;
               const gravX = Math.cos(angle) * grav;
               const gravY = Math.sin(angle) * grav;
               pointA.velX -= gravX;
@@ -179,7 +178,7 @@ export const canvasParticles = function (selector, options = {}) {
 
             } else if (this.options.gravity.pulling !== 0) {
               // apply pulling force on all particles not close together
-              const grav = distRatio ** 1.8 * this.options.particles.connectDist * this.options.gravity.pulling;
+              const grav = (1 / Math.max(dist, 10)) ** 1.8 * this.options.particles.connectDist * this.options.gravity.pulling;
               const gravX = Math.cos(angle) * grav;
               const gravY = Math.sin(angle) * grav;
               pointA.velX += gravX;
