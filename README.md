@@ -29,12 +29,12 @@ Resize the `<canvas>` over the full page and place it behind all elements.
   z-index: -1; /* Place behind other elements to act as background */
 }
 ```
-
-Be aware that using ES6 modules is only possible when running the application on a (local) server.
-[Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
-
 <details>
   <summary><h3>JavaScript import using ES6 modules</h3></summary>
+
+  Be aware that using ES6 modules is only possible when running the application on a (local) server.<br>
+  [Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+
 
   Add a `<script>` element in the `<head>` to import *initParticles.mjs*.
   ```html
@@ -176,6 +176,9 @@ These are a simple working examples.
 
 <details>
   <summary><h3>Using ES6 modules</h3></summary>
+
+  Be aware that using ES6 modules is only possible when running the application on a (local) server.<br>
+  [Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
 
   ```html
   <html lang="en">
