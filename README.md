@@ -11,6 +11,9 @@ Colors, interaction, gravity and other complex settings can be customized!
 [Options](#options)<br>
 [Summary](#summary)
 
+See this project in use!
+[https://weatherfy.kylehoeckman.ikdoeict.be/](https://weatherfy.kylehoeckman.ikdoeict.be/)
+
 ## Implementation
 
 Particles will be drawn on this `<canvas>` element
@@ -211,6 +214,7 @@ These are a simple working examples.
   <summary><h3>Using global scope</h3></summary>
 
   ```html
+  <!DOCTYPE html>
   <html lang="en">
 
   <head>
