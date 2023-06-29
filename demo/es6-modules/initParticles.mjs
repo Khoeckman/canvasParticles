@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Kyle Hoeckman, MIT License
+// https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
+
 import { canvasParticles } from "./canvasParticles.mjs";
 
 // Initialization
