@@ -33,7 +33,7 @@ const options = {
     // All particles within a [mouse.connectDistance / distRatio pixels] pixel radius from the mouse
     // will be drawn to (mouse.connectDistance) pixels from the mouse.
     // Example: 150 connectDistance / 0.4 distRatio = all particles within a 375 pixel radius
-    // NOTE: Keep this value above mouse.connectDistanceMultiplier
+    // NOTE: Keep this value above mouse.connectDistMult
     distRatio: 1, // default: 2÷3 (recommended: 0.2 - 1)
   },
 
