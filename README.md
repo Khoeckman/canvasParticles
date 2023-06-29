@@ -36,7 +36,7 @@ Resize the `<canvas>` over the full page and place it behind all elements.
   Add a `<script>` element in the `<head>` to import *initParticles.mjs*.
   ```html
   <head>
-    <script src="./initParticles.mjs"></script>
+    <script src="./initParticles.mjs" type="module"></script>
   </head>
   ```
   which imports *canvasParticles.mjs* and then invokes the `canvasParticles()` function.<br>
@@ -180,7 +180,7 @@ These are a simple working examples.
     <meta charset="utf-8">
     <title>Canvas Particles</title>
 
-    <script src="./initParticles.mjs"></script>
+    <script src="./initParticles.mjs" type="module"></script>
 
     <style>
       #canvas-particles-1 {
