@@ -117,10 +117,11 @@ const options = {
 
     // Particles per million.
     // The amount of particles that will be created per million pixels the canvas covers (width * height).
-    // Example: canvas dimensions = 1920 width * 937 height = 1799040 pixels * 100 ppm / 1000000 = 179.904 = 179 particles
+    // Example: canvas dimensions = 1920 width * 937 height = 1799040 pixels
+    //     1799040 pixels * 100 ppm / 1000000 = 179.904 = 179 particles
     // !!! IMPORTANT !!!: The amount of particles exponentially reduces performance.
-    //    People with large screens will have a bad experience with high values.
-    //    A solution is to use a higher particles.connectDistance with less particles.
+    //     People with large screens will have a bad experience with high values.
+    //     A solution is to use a higher particles.connectDistance with less particles.
     ppm: 100, // default: 100 (recommended: < 120)
 
     // The maximum amount of particles that can be created
@@ -131,7 +132,7 @@ const options = {
     // 1 work = [particles.connectDistance (= 150)] pixels of connection (or one line of 150 pixels).
     // Example: 10 maxWork = 10 * 150 connectDistance = max 1500 pixels of connections drawn per particle
     // !!! IMPORTANT !!!: Low values will stabilize performance at the cost of
-    //    creating an ugly effect where connections might suddenly dissapear / reappear
+    //     creating an ugly effect where connections might suddenly dissapear / reappear
     maxWork: 10, // default: Infinity (recommended: 5-10 @ connectDistance = 150 & maxParticles = 250)
 
     // The maximum length for a connection between 2 particles, heavily affects performance
