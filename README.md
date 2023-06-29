@@ -30,6 +30,9 @@ Resize the `<canvas>` over the full page and place it behind all elements.
 }
 ```
 
+Be aware that using ES6 modules is only possible when running the application on a (local) server.
+[Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+
 <details>
   <summary><h3>JavaScript import using ES6 modules</h3></summary>
 
