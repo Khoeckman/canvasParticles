@@ -33,21 +33,21 @@ Resize the `<canvas>` over the full page and place it behind all elements.
 <details>
   <summary><h3>JavaScript import using ES6 modules</h3></summary>
 
-  Add 2 `<script>` elements in the `<head>` to import *canvasParticles.mjs* **first** and then *initParticles.mjs* which invokes the `canvasParticles()` function.
+  Add a `<script>` element in the `<head>` to import *initParticles.mjs*.
   ```html
   <head>
-    <script src="./canvasParticles.mjs"></script> <!-- Import first! -->
     <script src="./initParticles.mjs"></script>
   </head>
   ```
-  Inside the *initParticles.mjs* file:
+  which imports *canvasParticles.mjs* and then invokes the `canvasParticles()` function.<br>
+  Inside *initParticles.mjs*:
   ```js
-  import { canvasParticles } from "./canvasParticles.mjs";
+  import { canvasParticles } from "./canvasParticles.mjs"; // Import canvasParticles.mjs
   
   // Initialization
   const selector = "#canvas-particles-1"; // Query Selector for the canvas
   const options = {}; // See options
-  canvasParticles(selector, options);
+  canvasParticles(selector, options); // Invocation
   ```
 </details>
 
@@ -70,7 +70,7 @@ Resize the `<canvas>` over the full page and place it behind all elements.
       // Initialization
       const selector = "#canvas-particles-1"; // Query Selector for the canvas
       const options = {}; // See options
-      canvasParticles(selector, options);
+      canvasParticles(selector, options); // Invocation
     </script>
   </body>
   ```
@@ -178,8 +178,8 @@ These are a simple working examples.
     
   <head>
     <meta charset="utf-8">
+    <title>Canvas Particles</title>
 
-    <script src="./canvasParticles.mjs"></script>
     <script src="./initParticles.mjs"></script>
 
     <style>
@@ -205,8 +205,9 @@ These are a simple working examples.
 
   ```html
   <html lang="en">
-    
+
   <head>
+    <title>Canvas Particles</title>
     <meta charset="utf-8">
 
     <script src="./canvasParticles.js"></script>
