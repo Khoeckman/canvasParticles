@@ -11,9 +11,6 @@ Colors, interaction, gravity and other complex settings can be customized!
 [Options](#options)<br>
 [Summary](#summary)
 
-See this project in use!
-[https://weatherfy.kylehoeckman.ikdoeict.be/](https://weatherfy.kylehoeckman.ikdoeict.be/)
-
 ## Implementation
 
 Particles will be drawn on this `<canvas>` element

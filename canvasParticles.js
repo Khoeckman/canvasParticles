@@ -266,7 +266,7 @@ const canvasParticles = function (selector, options = {}) {
       for (let i = 0; i < this.len; i++) {
         let particleWork = 0;
 
-        for (let j = i + 1; (work < maxWork || particleWork < maxWorkPerParticle) && j < this.len; j++) {
+        for (let j = i + 1; j < this.len; j++) {
           // Code in this scope runs [particles ** 2 / 2] times per frame!
           const pointA = this.particles[i];
           const pointB = this.particles[j];
@@ -290,11 +290,11 @@ const canvasParticles = function (selector, options = {}) {
               this.ctx.lineTo(pointB.x, pointB.y);
               this.ctx.stroke();
 
-              particleWork += dist;
-              work += dist;
+              if ((work += dist) >= maxWork || (particleWork += dist) >= maxWorkPerParticle) break;
             }
           }
         }
+        if (work >= maxWork) break;
       }
     }
 
