@@ -7,9 +7,14 @@ Creating a smooth, interactive background by simply placing a canvas over the ba
 
 Colors, interaction, gravity and other complex settings can be customized!
 
+[Demo](#demo)<br>
 [Implementation](#implementation)<br>
 [Options](#options)<br>
 [Summary](#summary)
+
+## Demo
+
+[http://kylehoeckman.great-site.net/canvas-particles/](http://kylehoeckman.great-site.net/canvas-particles/)
 
 ## Implementation
 
