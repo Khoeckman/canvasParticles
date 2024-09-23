@@ -42,7 +42,7 @@
   <canvas id="canvas-particles-3" class="particle-canvas"></canvas>
 
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
+    const initParticles = () => {
       new CanvasParticles('#canvas-particles-1', {
         background: 'linear-gradient(115deg, #354089, black)',
         resetOnResize: false,
@@ -98,7 +98,8 @@
           friction: 0.8,
         },
       }).start()
-    })
+    }
+    window.addEventListener('DOMContentLoaded', initParticles)
   </script>
 </body>
 

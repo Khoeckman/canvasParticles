@@ -1,0 +1,29 @@
+{
+  "name": "canvasparticles-js",
+  "version": "3.1.0",
+  "description": "In an HTML canvas, a bunch of floating particles are drawn that connect with a line when they are close to eachother. Creating a fun and interactive background. Colors, interaction and gravity can be customized!",
+  "main": "canvasParticles.mjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Khoeckman/canvasParticles.git"
+  },
+  "keywords": [
+    "front-end",
+    "frontend",
+    "canvas",
+    "particles",
+    "particle",
+    "animation",
+    "animated",
+    "javascript",
+    "js",
+    "html5",
+    "html"
+  ],
+  "author": "Kyle Hoeckman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Khoeckman/canvasParticles/issues"
+  },
+  "homepage": "http://kylehoeckman.great-site.net/canvas-particles/"
+}
