@@ -2,10 +2,9 @@
 
 ## Description
 
-In an HTML canvas, a bunch of floating particles are drawn that connect with a line when they are close to eachother.<br>
-Creating a smooth, interactive background by simply placing a canvas over the background.
-
-Colors, interaction, gravity and other complex settings can be customized!
+In an HTML canvas, a bunch of floating particles are drawn that connect with a line when they are close to eachother.
+Creating a fun and interactive background.
+Colors, interaction and gravity can be customized!
 
 [Demo](#demo)<br>
 [Implementation](#implementation)<br>
@@ -18,12 +17,14 @@ Colors, interaction, gravity and other complex settings can be customized!
 
 ## Implementation
 
-Particles will be drawn on this `<canvas>` element
+Particles will be drawn onto this `<canvas>` element
+
 ```html
 <canvas id="canvas-particles-1"></canvas>
 ```
 
-Resize the `<canvas>` over the full page and place it behind all elements.
+Resize the `<canvas>` so it covers the whole page and place it behind all elements.
+
 ```css
 #canvas-particles-1 {
   position: fixed;
@@ -34,29 +35,31 @@ Resize the `<canvas>` over the full page and place it behind all elements.
   z-index: -1; /* Place behind other elements to act as background */
 }
 ```
+
 <details>
   <summary><h3>JavaScript import using ES6 modules</h3></summary>
 
-  Be aware that using ES6 modules is only possible when running the application on a (local) server.<br>
-  [Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+Be aware that using ES6 modules is only possible when running the application on a (local) server.<br>
+[Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
 
+Add a `<script>` element in the `<head>` to import _initParticles.js_.
 
-  Add a `<script>` element in the `<head>` to import *initParticles.mjs*.
-  ```html
-  <head>
-    <script src="./initParticles.mjs" type="module"></script>
-  </head>
-  ```
-  which imports *canvasParticles.mjs* and then invokes the `canvasParticles()` function.<br>
-  Inside *initParticles.mjs*:
-  ```js
-  import { canvasParticles } from "./canvasParticles.mjs"; // Import canvasParticles.mjs
-  
-  // Initialization
-  const selector = "#canvas-particles-1"; // Query Selector for the canvas
-  const options = {}; // See options
-  canvasParticles(selector, options); // Invocation
-  ```
+```html
+<head>
+  <script src="./initParticles.js" type="module"></script>
+</head>
+```
+
+Inside _initParticles.js_:
+
+```js
+import CanvasParticles from './canvasParticles.mjs' // Import canvasParticles.mjs
+
+const selector = '#canvas-particles-1' // Query Selector for the canvas
+const options = {} // See #options
+const canvas = new canvasParticles(selector, options).start()
+```
+
 </details>
 
 <details>
@@ -65,166 +68,156 @@ Resize the `<canvas>` over the full page and place it behind all elements.
   Add a `<script>` element in the `<head>` to import the *canvasParticles.js* file.<br>
   ```html
   <head>
-    <script src="./canvasParticles.js"></script>
+    <script src="./canvasParticles.js" defer></script>
   </head>
   ```
 
-  Add an inline `<script>` element **at the very bottom of the `<body>`** that invokes the `canvasParticles()` function.
-  ```html
-  <body>
-    ...
+Add an inline `<script>` element at the very bottom of the `<body>`.
 
-    <script>
-      // Initialization
-      const selector = "#canvas-particles-1"; // Query Selector for the canvas
-      const options = {}; // See options
-      canvasParticles(selector, options); // Invocation
-    </script>
-  </body>
-  ```
+```html
+<body>
+  ...
+
+  <script>
+    const initParticles = () => {
+      const selector = '#canvas-particles-1' // Query Selector for the canvas
+      const options = {} // See #options
+      new canvasParticles(selector, options).start()
+    }
+    document.addEventListener('DOMContentLoaded', initParticles)
+  </script>
+</body>
+```
+
 </details>
+
+### Starting and stopping animation
+
+```js
+const particles = new CanvasParticles(selector, options)
+particles.start()
+particles.stop()
+```
 
 ## Options
 
-The default value will be used when an option has an invalid value or is not specified.<br>
-All recommendations are for 179 particles at 60 updates/s. (see particles.ppm)
+Configuration options for the particles and their behavior.
+
+<details>
+  <summary><h3>Options structure</h3></summary>
+
+The default value will be used when an option is assigned an invalid value.<br>
+All recommendations are for a 179 particles at 60 updates/s. (see options.particles.ppm)
 
 ```js
 const options = {
-  // Background of the canvas (can be any CSS supported value for the background property).
-  background: 'linear-gradient(115deg, #354089, black)', // default: 'transparent'
+  /** @param {string} [options.background='transparent'] - Background of the canvas. Can be any CSS supported value for the background property. */
+  background: 'linear-gradient(115deg, #354089, black)',
 
-  // The particles will update every refreshRate / framesPerUpdate.
-  // Example: 60 fps / 2 framesPerUpdate = 30 updates/s   ;   144 fps / 3 framesPerUpdate = 48 updates/s
-  framesPerUpdate: 1, // default: 1 (recommended: 1 - 3)
+  /** @param {integer} [options.framesPerUpdate=1] - How many times the same frame will be shown before an update happens.
+   * @example 60 fps / 2 framesPerUpdate = 30 updates/s
+   * @example 144 fps / 3 framesPerUpdate = 48 updates/s
+   * */
+  framesPerUpdate: 1, // recommended: 1 - 3
 
-  // Create new particles when the canvas gets resized.
-  resetOnResize: false, // default: true
+  /** @param {boolean} [options.resetOnResize=true] - Create new particles when the canvas gets resized. */
+  resetOnResize: false,
 
+  /** @param {Object} [options.mouse] - Mouse interaction settings. */
   mouse: {
-    // 0 = No interaction.
-    // 1 = The mouse can shift the particles.
-    // 2 = The mouse can move the particles.
-    // NOTE: mouse.distRatio should be less than 1 to allow dragging, closer to 0 is easier to drag
-    interactionType: 2, // default: 1
+    /** @param {0|1|2} [options.mouse.interactionType=1] - The type of interaction the mouse will have with particles.
+     * 0 = No interaction.
+     * 1 = The mouse can visually shift the particles.
+     * 2 = The mouse can move the particles.
+     * @note mouse.distRatio should be less than 1 to allow dragging, closer to 0 is easier to drag
+     */
+    interactionType: 2,
 
-    // The maximum distance for the mouse to interact with the particles.
-    // The value is multiplied by particles.connectDistance
-    connectDistMult: 0.8, // default: 2÷3   ;   2 / 3 * particles.connectDistance (= 150) = 100 pixels
+    /** @param {float} [options.mouse.connectDistMult=2÷3] - The maximum distance for the mouse to interact with the particles.
+     * The value is multiplied by particles.connectDistance
+     * @example 0.8 connectDistMult * 150 particles.connectDistance = 120 pixels
+     */
+    connectDistMult: 0.8,
 
-    // All particles within a [mouse.connectDistance / distRatio] pixel radius from the mouse
-    // will be drawn to (mouse.connectDistance) pixels from the mouse.
-    // Example: 150 connectDistance / 0.4 distRatio = all particles within a 375 pixel radius
-    // NOTE: Keep this value above mouse.connectDistMult
-    distRatio: 1, // default: 2÷3 (recommended: 0.2 - 1)
+    /** @param {number} [options.mouse.distRatio=2÷3] - All particles within set radius from the mouse will be drawn to mouse.connectDistance pixels from the mouse.
+     * @example radius = 150 connectDistance / 0.4 distRatio = 375 pixels
+     * @note Keep this value above mouse.connectDistMult
+     */
+    distRatio: 1, // recommended: 0.2 - 1
   },
 
+  /** @param {Object} [options.particles] - Particle settings. */
   particles: {
-    // The color of the particles and their connections. Can be any CSS supported color format.
-    color: '#88c8ffa0', // default: 'black'
+    /** param {string} [options.particles.color='black'] - The color of the particles and their connections. Can be any CSS supported color format. */
+    color: '#88c8ffa0',
 
-    // Particles per million.
-    // The amount of particles that will be created per million pixels the canvas covers (width * height).
-    // Example: canvas dimensions = 1920 width * 937 height = 1799040 pixels
-    //     1799040 pixels * 100 ppm / 1000000 = 179.904 = 179 particles
-    // !!! IMPORTANT !!!: The amount of particles exponentially reduces performance.
-    //     People with large screens will have a bad experience with high values.
-    //     A solution is to use a higher particles.connectDistance with less particles.
-    ppm: 100, // default: 100 (recommended: < 120)
+    /** @param {number} [options.particles.ppm=100] - Particles per million (ppm).
+     * This determines how many particles are created per million pixels of the canvas.
+     * @example FHD on Chrome = 1920 width * 937 height = 1799040 pixels; 1799040 pixels * 100 ppm / 1000000 = 179.904 = 179 particles
+     * @important The amount of particles exponentially reduces performance.
+     * People with large screens will have a bad experience with high values.
+     * One solution is to increase particles.connectDistance and decrease this value.
+     */
+    ppm: 100, // recommended: < 120
 
-    // The maximum amount of particles that can be created
-    max: 200, // default: 500 (recommended: < 500)
+    /** @param {number} [options.particles.max=500] - The maximum number of particles allowed. */
+    max: 200, // recommended: < 500
 
-    // Does not draw more connections from a particsle if it exceeds the max amount of work.
-    // All connections will always be drawn if set to Infinity.
-    // 1 work = [particles.connectDistance (= 150)] pixels of connection (or one line of 150 pixels).
-    // Example: 10 maxWork = 10 * 150 connectDistance = max 1500 pixels of connections drawn per particle
-    // !!! IMPORTANT !!!: Low values will stabilize performance at the cost of
-    //     creating an ugly effect where connections might suddenly dissapear / reappear
-    maxWork: 10, // default: Infinity (recommended: 5-10 @ connectDistance = 150 & maxParticles = 250)
+    /** @param {number} [options.particles.maxWork=Infinity] - The maximum "work" a particle can perform before its connections are no longer drawn.
+     * @example 10 maxWork = 10 * 150 connectDistance = max 1500 pixels of lines drawn per particle
+     * @important Low values will stabilize performance at the cost of creating an ugly effect where connections may flicker.
+     */
+    maxWork: 10,
 
-    // The maximum length for a connection between 2 particles, heavily affects performance
-    connectDistance: 150, // default: 150 (recommended: 50-250 @ maxParticles = 250)
+    /** @param {number} [options.particles.connectDistance=150] - The maximum distance for a connection between 2 particles.
+     * @note Heavily affects performance. */
+    connectDistance: 150,
 
-    // The relative moving speed of the particles.
-    // The moving speed is a random value between 0.5 and 1 pixels per update.
-    // Example: 2 relSpeed * (.5 + Math.random() * .5) = 1 to 2 pixels per update
-    // Example: 0.5 relSpeed * (.5 + Math.random() * .5) = 0.25 to 0.5 pixels per update
-    relSpeed: 0.8, // default: 1
+    /** @param {number} [options.particles.relSpeed=1] - The relative moving speed of the particles.
+     * The moving speed is a random value between 0.5 and 1 pixels per update.
+     * @example 2 relSpeed = 1 to 2 pixels per update
+     * @example 0.5 relSpeed = 0.25 to 0.5 pixels per update
+     */
+    relSpeed: 0.8,
 
-    // The speed at which the particles randomly change direction
-    // 1 rotationSpeed = max direction change of 0.01rad or ~0.573° per update
-    rotationSpeed: 1, // default: 2.00 (recommended: < 10.00)
+    /** @param {number} [options.particles.rotationSpeed=2] - The speed at which the particles randomly changes direction.
+     * @example 1 rotationSpeed = max direction change of 0.01 radians per update
+     */
+    rotationSpeed: 1, // recommended: < 10
   },
 
+  /** @param {Object} [options.gravity] - Gravitational force settings.
+   * @important Heavily reduces performance if gravity.repulsive or gravity.pulling is not equal to 0
+   */
   gravity: {
-    // !!! IMPORTANT !!!: Heavily reduces performance if one of these value is not 0
+    /** @param {number} [options.gravity.repulsive=0] - The repulsive force between particles. */
+    repulsive: 2, // recommended: 0.50 - 5.00
 
-    // Apply repulsive force to particles close together
-    repulsive: 2, // default: 0.00 (recommended: 0.50 - 5.00)
+    /** @param {number} [options.gravity.pulling=0] - The attractive force pulling particles together. Works poorly if `gravity.repulsive` is too low.
+     * @note gravity.repulsive should be great enough to prevent forming a singularity.
+     */
+    pulling: 0.0, // recommended: 0.01 - 0.10
 
-    // Apply pulling force to particles not close together
-    // NOTE: This works very bad if gravity.repulsive is too low
-    pulling: 0.00, // default: 0.00 (recommended: 0.01 - 0.10)
-
-    // The smoothness of the gravitational forces
-    // The force gets multiplied by the fricion every update.
-    // The force remaning after x updates = force * friction ** x
-    friction: 0.8 // default: 0.90 (recommended: 0.50 - 0.999)
+    /** @param {number} [options.gravity.friction=0.9] -  The smoothness of the gravitational forces.
+     * The force gets multiplied by the fricion every update.
+     * @example force after x updates = force * friction ** x
+     */
+    friction: 0.8, // recommended: 0.500 - 0.999
   },
-};
+}
 ```
 
-## Summary
-
-These are a simple working examples.
-
-<details>
-  <summary><h3>Using ES6 modules</h3></summary>
-
-  Be aware that using ES6 modules is only possible when running the application on a (local) server.<br>
-  [Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
-
-  ```html
-  <html lang="en">
-    
-  <head>
-    <meta charset="utf-8">
-    <title>Canvas Particles</title>
-
-    <script src="./initParticles.mjs" type="module"></script>
-
-    <style>
-      #canvas-particles-1 {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-      }
-    </style>
-  </head>
-    
-  <body>
-    <canvas id="canvas-particles-1"></canvas>
-  </body>
-
-  </html>
-  ```
 </details>
 
-<details>
-  <summary><h3>Using global scope</h3></summary>
+## Example
 
-  ```html
-  <!DOCTYPE html>
-  <html lang="en">
-
+```html
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <meta charset="utf-8" />
     <title>Canvas Particles</title>
-    <meta charset="utf-8">
-
-    <script src="./canvasParticles.js"></script>
-
+    <script src="./canvasParticles.js" defer></script>
     <style>
       #canvas-particles-1 {
         position: absolute;
@@ -234,29 +227,24 @@ These are a simple working examples.
       }
     </style>
   </head>
-    
+
   <body>
     <canvas id="canvas-particles-1"></canvas>
-    
-    <script>
-      const selector = '#canvas-particles-1'; // Query selector for the canvas
-      const options = { 
-        background: 'hsl(125, 42%, 35%)',
 
+    <script>
+      const selector = '#canvas-particles-1'
+      const options = {
+        background: 'hsl(125, 42%, 35%)',
         mouse: {
           interactionType: 2,
         },
-
         particles: {
           color: 'rgba(150, 255, 105, 0.95)',
           max: 200,
-          maxWork: 10,
         },
-      };
-      canvasParticles(selector, options);
+      }
+      new CanvasParticles(selector, options).start()
     </script>
   </body>
-
-  </html>
-  ```
-</details>
+</html>
+```
