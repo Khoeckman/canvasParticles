@@ -53,7 +53,7 @@ Add a `<script>` element in the `<head>` to import _initParticles.js_.
 Inside _initParticles.js_:
 
 ```js
-import CanvasParticles from './canvasParticles.mjs' // Import canvasParticles.mjs
+import CanvasParticles from './canvasParticles.mjs'
 
 const selector = '#canvas-particles-1' // Query Selector for the canvas
 const options = {} // See #options
@@ -216,7 +216,6 @@ const options = {
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Canvas Particles</title>
     <script src="./canvasParticles.js" defer></script>
     <style>
       #canvas-particles-1 {
