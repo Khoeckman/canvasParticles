@@ -98,20 +98,15 @@ export default class CanvasParticles {
     this.canvas.style.background = this.options.background
     this.resizeCanvas()
 
+    const updateMousePos = event => {
+      if (!this.animating) return
+      this.mouseX = event.clientX - this.canvas.offsetLeft + window.scrollX
+      this.mouseY = event.clientY - this.canvas.offsetTop + window.scrollY
+    }
+
     window.addEventListener('resize', () => this.resizeCanvas())
-
-    window.addEventListener('mousemove', event => {
-      if (!this.animating) return
-      this.mouseX = event.clientX - this.canvas.offsetLeft + window.scrollX
-      this.mouseY = event.clientY - this.canvas.offsetTop + window.scrollY
-    })
-
-    window.addEventListener('scroll', event => {
-      if (!this.animating) return
-
-      this.mouseX = event.clientX - this.canvas.offsetLeft + window.scrollX
-      this.mouseY = event.clientY - this.canvas.offsetTop + window.scrollY
-    })
+    window.addEventListener('mousemove', updateMousePos)
+    window.addEventListener('scroll', updateMousePos)
   }
 
   resizeCanvas = () => {
