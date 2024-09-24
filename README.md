@@ -1,4 +1,4 @@
-# canvasParticles
+# Canvas Particles JS
 
 ## Description
 
@@ -57,7 +57,7 @@ import CanvasParticles from './canvasParticles.mjs'
 
 const selector = '#canvas-particles-1' // Query Selector for the canvas
 const options = {} // See #options
-new canvasParticles(selector, options).start()
+new CanvasParticles(selector, options).start()
 ```
 
 </details>
@@ -82,7 +82,7 @@ Add an inline `<script>` element at the very bottom of the `<body>`.
     const initParticles = () => {
       const selector = '#canvas-particles-1' // Query Selector for the canvas
       const options = {} // See #options
-      new canvasParticles(selector, options).start()
+      new CanvasParticles(selector, options).start()
     }
     document.addEventListener('DOMContentLoaded', initParticles)
   </script>
