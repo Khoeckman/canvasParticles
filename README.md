@@ -37,7 +37,7 @@ Resize the `<canvas>` so it covers the whole page and place it behind all elemen
 ```
 
 <details>
-  <summary><h3>JavaScript import using ES6 modules</h3></summary>
+  <summary><h3>Import using ES6 modules</h3></summary>
 
 Be aware that using ES6 modules is only possible when running the application on a (local) server.<br>
 [Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
@@ -57,13 +57,13 @@ import CanvasParticles from './canvasParticles.mjs'
 
 const selector = '#canvas-particles-1' // Query Selector for the canvas
 const options = {} // See #options
-const canvas = new canvasParticles(selector, options).start()
+new canvasParticles(selector, options).start()
 ```
 
 </details>
 
 <details>
-  <summary><h3>JavaScript import using global scope</h3></summary>
+  <summary><h3>Import using global scope</h3></summary>
   
   Add a `<script>` element in the `<head>` to import the *canvasParticles.js* file.<br>
   ```html
