@@ -111,7 +111,9 @@ All recommendations are for a 179 particles at 60 updates/s. (see options.partic
 
 ```js
 const options = {
-  /** @param {string} [options.background='transparent'] - Background of the canvas. Can be any CSS supported value for the background property. */
+  /** @param {string} [options.background=false] - Background of the canvas. Can be any CSS supported value for the background property.
+   * @note No background will be set if background is not a string.
+   */
   background: 'linear-gradient(115deg, #354089, black)',
 
   /** @param {integer} [options.framesPerUpdate=1] - How many times the same frame will be shown before an update happens.

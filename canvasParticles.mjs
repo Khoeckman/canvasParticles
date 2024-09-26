@@ -29,7 +29,7 @@ export default class CanvasParticles {
 
     // Format and store options
     this.options = {
-      background: options.background ?? 'transparent',
+      background: options.background ?? false,
       framesPerUpdate: Math.max(1, parseInt(options.framesPerUpdate) ?? 1),
       resetOnResize: !!(options.resetOnResize ?? true),
       mouse: {
@@ -94,7 +94,7 @@ export default class CanvasParticles {
       this.options.particles.color = this.ctx.fillStyle
     }
 
-    this.canvas.style.background = this.options.background
+    if (typeof this.options.background !== 'string') this.canvas.style.background = this.options.background
     this.resizeCanvas()
 
     const updateMousePos = event => {
