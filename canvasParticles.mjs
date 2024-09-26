@@ -7,7 +7,7 @@
  * Colors, interaction, gravity and other complex settings can be customized!
  *
  * @module CanvasParticles
- * @version 3.1.5
+ * @version 3.1.6
  */
 export default class CanvasParticles {
   animating = false
@@ -94,7 +94,7 @@ export default class CanvasParticles {
       this.options.particles.color = this.ctx.fillStyle
     }
 
-    if (typeof this.options.background !== 'string') this.canvas.style.background = this.options.background
+    if (typeof this.options.background === 'string') this.canvas.style.background = this.options.background
     this.resizeCanvas()
 
     const updateMousePos = event => {
