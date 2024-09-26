@@ -9,7 +9,7 @@ Colors, interaction and gravity can be customized!
 [Demo](#demo)<br>
 [Implementation](#implementation)<br>
 [Options](#options)<br>
-[Summary](#summary)
+[Example](#example)
 
 ## Demo
 
