@@ -1,8 +1,6 @@
 // Copyright (c) 2022 - 2024 Kyle Hoeckman, MIT License
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
-'use strict'
-
 /**
  * In an HTML canvas, a bunch of floating particles are drawn that connect with a line when they are close to eachother.
  * Creating a smooth, interactive background by simply placing a canvas over the background.
