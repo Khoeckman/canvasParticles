@@ -100,8 +100,13 @@ class CanvasParticles {
 
     const updateMousePos = event => {
       if (!this.animating) return
-      this.mouseX = event.clientX - this.canvas.offsetLeft + window.scrollX
-      this.mouseY = event.clientY - this.canvas.offsetTop + window.scrollY
+
+      if (event instanceof MouseEvent) {
+        this.clientX = event.clientX
+        this.clientY = event.clientY
+      }
+      this.mouseX = this.clientX - this.canvas.offsetLeft + window.scrollX
+      this.mouseY = this.clientY - this.canvas.offsetTop + window.scrollY
     }
 
     window.addEventListener('resize', () => this.resizeCanvas())
