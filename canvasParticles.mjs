@@ -7,6 +7,7 @@
  * Colors, interaction, gravity and other complex settings can be customized!
  *
  * @module CanvasParticles
+ * @version 3.1.5
  */
 export default class CanvasParticles {
   animating = false
@@ -21,7 +22,7 @@ export default class CanvasParticles {
     if (typeof selector !== 'string') throw new TypeError('selector is not a string')
 
     this.canvas = document.querySelector(selector)
-    if (!(this.canvas instanceof HTMLCanvasElement)) throw new ReferenceError('selector does not point to a HTMLCanvasElement')
+    if (!(this.canvas instanceof HTMLCanvasElement)) throw new ReferenceError('selector does not point to a canvas')
 
     // Get 2d drawing functions
     this.ctx = this.canvas.getContext('2d')
