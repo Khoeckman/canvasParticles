@@ -9,7 +9,7 @@
  * Colors, interaction, gravity and other complex settings can be customized!
  *
  * @class CanvasParticles
- * @version 3.2.0
+ * @version 3.2.1
  */
 class CanvasParticles {
   animating = false
@@ -329,8 +329,6 @@ class CanvasParticles {
     }
 
     const len = this.len
-    const drawAll = this.options.particles.connectDist >= Math.min(this.width, this.height)
-
     const maxWorkPerParticle = this.options.particles.connectDist * this.options.particles.maxWork
     const maxWork = maxWorkPerParticle * len
     let work = 0
@@ -344,7 +342,7 @@ class CanvasParticles {
         const pointB = this.particles[j]
 
         // Draw a line if its visible
-        if (this.isLineVisible(pointA, pointB) || drawAll) {
+        if (this.isLineVisible(pointA, pointB)) {
           const dist = Math.hypot(pointA.x - pointB.x, pointA.y - pointB.y)
 
           // Connect the 2 points with a line if the distance is small enough
@@ -382,11 +380,8 @@ class CanvasParticles {
 
     if (++this.updateCount >= this.options.framesPerUpdate) {
       this.updateCount = 0
-
-      if (window.innerWidth > 960) {
-        this.update()
-        this.render()
-      }
+      this.update()
+      this.render()
     }
   }
 
