@@ -1,6 +1,6 @@
 {
   "name": "canvasparticles-js",
-  "version": "3.1.6",
+  "version": "3.2.0",
   "description": "In an HTML canvas, a bunch of floating particles are drawn that connect with a line when they are close to eachother. Creating a fun and interactive background. Colors, interaction and gravity can be customized!",
   "main": "canvasParticles.mjs",
   "type": "module",

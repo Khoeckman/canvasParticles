@@ -3,7 +3,6 @@ import CanvasParticles from './canvasParticles.mjs'
 //  Initialize first canvas
 new CanvasParticles('#canvas-particles-1', {
   background: 'linear-gradient(115deg, #354089, black)',
-  resetOnResize: false,
   mouse: {
     interactionType: 2,
     connectDistMult: 0.8,
@@ -25,6 +24,7 @@ new CanvasParticles('#canvas-particles-1', {
 // Initialize second canvas
 new CanvasParticles('#canvas-particles-2', {
   background: 'hsl(125, 42%, 35%)',
+  resetOnResize: true,
   mouse: {
     interactionType: 2,
   },
@@ -38,7 +38,6 @@ new CanvasParticles('#canvas-particles-2', {
 // Initialize third canvas
 new CanvasParticles('#canvas-particles-3', {
   background: '#423',
-  resetOnResize: false,
   mouse: {
     connectDistMult: 0.5,
     distRatio: 0.75,
