@@ -122,7 +122,9 @@ const options = {
    * */
   framesPerUpdate: 1, // recommended: 1 - 3
 
-  /** @param {boolean} [options.resetOnResize=true] - Create new particles when the canvas gets resized. */
+  /** @param {boolean} [options.resetOnResize=false] - Create new particles when the canvas gets resized.
+   * @info If false, will instead add or remove a few particles to match particles.ppm
+   */
   resetOnResize: false,
 
   /** @param {Object} [options.mouse] - Mouse interaction settings. */

@@ -9,7 +9,7 @@
  * Colors, interaction, gravity and other complex settings can be customized!
  *
  * @class CanvasParticles
- * @version 3.1.6
+ * @version 3.2.0
  */
 class CanvasParticles {
   animating = false
@@ -33,7 +33,7 @@ class CanvasParticles {
     this.options = {
       background: options.background ?? false,
       framesPerUpdate: Math.max(1, parseInt(options.framesPerUpdate) ?? 1),
-      resetOnResize: !!(options.resetOnResize ?? true),
+      resetOnResize: !!(options.resetOnResize ?? false),
       mouse: {
         interactionType: +(parseInt(options.mouse?.interactionType) ?? 1),
         connectDistMult: +(options.mouse?.connectDistMult ?? 2 / 3),
@@ -81,13 +81,13 @@ class CanvasParticles {
     this.ctx.fillStyle = this.options.particles.color
 
     if (this.ctx.fillStyle[0] === '#') {
-      this.options.particles.opacity = { value: 1, hex: 'ff' }
+      this.options.particles.opacity = { value: 255, hex: 'ff' }
       this.options.particles.color = this.ctx.fillStyle
     } else {
       // Example: extract 0.25 from rgba(136, 244, 255, 0.25) and convert to range 0x00 to 0xff and store as a 2 char string
-      let value = ~~(this.ctx.fillStyle.split(',').at(-1).slice(1, -1) * 255)
+      const value = ~~(this.ctx.fillStyle.split(',').at(-1).slice(1, -1) * 255)
       this.options.particles.opacity = {
-        value: value / 255,
+        value: value,
         hex: value.toString(16),
       }
 
@@ -136,7 +136,8 @@ class CanvasParticles {
     else this.matchParticlesAmount()
   }
 
-  /** Remove all particles and generates new ones.
+  /**
+   * Remove all particles and generates new ones.
    * The amount of new particles will match 'options.particles.ppm'
    * */
   newParticles = () => {
@@ -145,7 +146,8 @@ class CanvasParticles {
     for (let i = 0; i < this.len; i++) this.createParticle()
   }
 
-  /** When resizing, add or remove some particles.
+  /**
+   * When resizing, add or remove some particles.
    * The final amount of particles will match 'options.particles.ppm'
    * */
   matchParticlesAmount = () => {
@@ -168,17 +170,25 @@ class CanvasParticles {
       speed: speed || (0.5 + Math.random() * 0.5) * this.options.particles.relSpeed, // Velocity in pixels per update
       size: size || 0.5 + Math.random() ** 5 * 2, // Ray in pixels of the particle
     })
-    let point = this.particles.at(-1)
-    point.isVisible = this.isVisible(point) // Whether the particles position is within the bounds of the canvas
+    const point = this.particles.at(-1)
+    point.gridPos = this.gridPos(point) // The location of the particle relative to the visible center of the canvas
+    point.isVisible = point.gridPos.x === 1 && point.gridPos.y === 1
   }
 
-  /** Calculates the properties of each particle on the next frame.
+  /**
+   * Calculates the properties of each particle on the next frame.
    * Is executed once every 'options.framesPerUpdate' frames.
    * */
   update = () => {
-    if (this.options.gravity.repulsive !== 0 || this.options.gravity.pulling !== 0) {
-      for (let i = 0; i < this.len; i++) {
-        for (let j = i + 1; j < this.len; j++) {
+    const len = this.len
+    const enabledRepulsive = this.options.gravity.repulsive !== 0
+    const enabledPulling = this.options.gravity.pulling !== 0
+    const gravRepulsiveMult = this.options.particles.connectDist * this.options.gravity.repulsive
+    const gravPullingMult = this.options.particles.connectDist * this.options.gravity.pulling
+
+    if (enabledRepulsive || enabledPulling) {
+      for (let i = 0; i < len; i++) {
+        for (let j = i + 1; j < len; j++) {
           // Code in this scope runs [particles ** 2 / 2] times!
           const pointA = this.particles[i]
           const pointB = this.particles[j]
@@ -187,16 +197,16 @@ class CanvasParticles {
 
           if (dist < this.options.particles.connectDist / 2) {
             // Apply repulsive force on all particles close together
-            const grav = (1 / Math.max(dist, 10)) ** 1.8 * this.options.particles.connectDist * this.options.gravity.repulsive
+            const grav = (1 / Math.max(dist, 10)) ** 1.8 * gravRepulsiveMult
             const gravX = Math.cos(angle) * grav
             const gravY = Math.sin(angle) * grav
             pointA.velX -= gravX
             pointA.velY -= gravY
             pointB.velX += gravX
             pointB.velY += gravY
-          } else if (this.options.gravity.pulling !== 0) {
+          } else if (enabledPulling) {
             // Apply pulling force on all particles not close together
-            const grav = (1 / Math.max(dist, 10)) ** 1.8 * this.options.particles.connectDist * this.options.gravity.pulling
+            const grav = (1 / Math.max(dist, 10)) ** 1.8 * gravPullingMult
             const gravX = Math.cos(angle) * grav
             const gravY = Math.sin(angle) * grav
             pointA.velX += gravX
@@ -209,7 +219,7 @@ class CanvasParticles {
     }
 
     for (let point of this.particles) {
-      // I am not explaning this ... have fun
+      // Moving the particle
       point.dir =
         (point.dir + Math.random() * this.options.particles.rotationSpeed * 2 - this.options.particles.rotationSpeed) % (2 * Math.PI)
       point.velX *= this.options.gravity.friction
@@ -220,6 +230,7 @@ class CanvasParticles {
       const distX = point.posX + this.offX - this.mouseX
       const distY = point.posY + this.offY - this.mouseY
 
+      // Mouse events
       if (this.options.mouse.interactionType !== 0) {
         const distRatio = this.options.mouse.connectDist / Math.hypot(distX, distY)
 
@@ -231,29 +242,64 @@ class CanvasParticles {
           point.offY -= point.offY / 4
         }
       }
-      point.x = point.posX + point.offX + this.offX
-      point.y = point.posY + point.offY + this.offY
+      point.x = point.posX + point.offX
+      point.y = point.posY + point.offY
 
       if (this.options.mouse.interactionType === 2) {
-        // Make the mouse actually move the particles their position instead of just visually
-        point.posX = point.x - this.offX
-        point.posY = point.y - this.offY
+        // Make the mouse actually move the particles
+        point.posX = point.x
+        point.posY = point.y
       }
-      point.isVisible = this.isVisible(point)
+      point.x += this.offX
+      point.y += this.offY
+
+      point.gridPos = this.gridPos(point)
+      point.isVisible = point.gridPos.x === 1 && point.gridPos.y === 1
     }
   }
 
   /**
-   * Determines if a particle is visible on the canvas.
-   * @param {Object} point - The particle to check visibility for.
-   * @returns {boolean} - True if the particle is visible, false otherwise.
+   * Determines the location of the particle in a 3x3 grid on the canvas.
+   * The grid represents different regions of the canvas:
+   *
+   * - { x: 0, y: 0 } = top-left
+   * - { x: 1, y: 0 } = top
+   * - { x: 2, y: 0 } = top-right
+   * - { x: 0, y: 1 } = left
+   * - { x: 1, y: 1 } = center (visible part of the canvas)
+   * - { x: 2, y: 1 } = right
+   * - { x: 0, y: 2 } = bottom-left
+   * - { x: 1, y: 2 } = bottom
+   * - { x: 2, y: 2 } = bottom-right
+   *
+   * @param {Object} point - The coordinates of the particle.
+   * @param {number} point.x - The x-coordinate of the particle.
+   * @param {number} point.y - The y-coordinate of the particle.
+   * @returns {Object} - The calculated grid position of the particle.
+   * @returns {number} x - The horizontal grid position (0, 1, or 2).
+   * @returns {number} y - The vertical grid position (0, 1, or 2).
    */
-  isVisible = function (point) {
+  gridPos = function (point) {
+    return {
+      x: (point.x >= 0) + (point.x > this.width),
+      y: (point.y >= 0) + (point.y > this.height),
+    }
+  }
+
+  /**
+   * Determines whether a line between 2 particles crosses through the visible center of the canvas.
+   * @param {Object} pointA - First particle with {gridPos, isVisible}.
+   * @param {Object} pointB - Second particle with {gridPos, isVisible}.
+   * @returns {boolean} - True if the line crosses the visible center, false otherwise.
+   */
+  isLineVisible = function (pointA, pointB) {
+    // Visible if either point is in the center
+    if (pointA.isVisible || pointB.isVisible) return true
+
+    // Not visible if both points are in the same vertical or horizontal line but outside the center
     return !(
-      point.posX < Math.abs(this.offX) ||
-      point.posX > this.width - Math.abs(this.offX) ||
-      point.posY < Math.abs(this.offY) ||
-      point.posY > this.height - Math.abs(this.offY)
+      (pointA.gridPos.x === pointB.gridPos.x && pointA.gridPos.x !== 1) ||
+      (pointA.gridPos.y === pointB.gridPos.y && pointA.gridPos.y !== 1)
     )
   }
 
@@ -282,30 +328,31 @@ class CanvasParticles {
       }
     }
 
+    const len = this.len
     const drawAll = this.options.particles.connectDist >= Math.min(this.width, this.height)
 
     const maxWorkPerParticle = this.options.particles.connectDist * this.options.particles.maxWork
-    const maxWork = maxWorkPerParticle * this.len
+    const maxWork = maxWorkPerParticle * len
     let work = 0
 
-    for (let i = 0; i < this.len; i++) {
+    for (let i = 0; i < len; i++) {
       let particleWork = 0
 
-      for (let j = i + 1; j < this.len; j++) {
+      for (let j = i + 1; j < len; j++) {
         // Code in this scope runs [particles ** 2 / 2] times!
         const pointA = this.particles[i]
         const pointB = this.particles[j]
 
-        // A line should be drawn if at least one point is on screen
-        if (pointA.isVisible || pointB.isVisible || drawAll) {
+        // Draw a line if its visible
+        if (this.isLineVisible(pointA, pointB) || drawAll) {
           const dist = Math.hypot(pointA.x - pointB.x, pointA.y - pointB.y)
 
           // Connect the 2 points with a line if the distance is small enough
           if (dist < this.options.particles.connectDist) {
             // Calculate the transparency of the line
             if (dist >= this.options.particles.connectDist / 2) {
-              let alpha = Math.floor(
-                Math.min(this.options.particles.connectDist / dist - 1, 1) * 255 * this.options.particles.opacity.value
+              const alpha = Math.floor(
+                Math.min(this.options.particles.connectDist / dist - 1, 1) * this.options.particles.opacity.value
               ).toString(16)
               this.ctx.strokeStyle = this.options.particles.color + (alpha.length === 2 ? alpha : '0' + alpha)
             } else this.ctx.strokeStyle = this.options.particles.color + this.options.particles.opacity.hex
