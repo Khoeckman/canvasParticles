@@ -2,12 +2,10 @@
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
 /**
- * In an HTML canvas, a bunch of floating particles are drawn that connect with a line when they are close to eachother.
- * Creating a smooth, interactive background by simply placing a canvas over the background.
- * Colors, interaction, gravity and other complex settings can be customized!
+ * Canvas Particles JS
  *
  * @module CanvasParticles
- * @version 3.2.1
+ * @version 3.2.2
  */
 export default class CanvasParticles {
   animating = false
@@ -327,6 +325,8 @@ export default class CanvasParticles {
     }
 
     const len = this.len
+    const drawAll = this.options.particles.connectDist >= Math.min(this.width, this.height)
+
     const maxWorkPerParticle = this.options.particles.connectDist * this.options.particles.maxWork
     const maxWork = maxWorkPerParticle * len
     let work = 0
@@ -340,7 +340,7 @@ export default class CanvasParticles {
         const pointB = this.particles[j]
 
         // Draw a line if its visible
-        if (this.isLineVisible(pointA, pointB)) {
+        if (this.isLineVisible(pointA, pointB) | drawAll) {
           const dist = Math.hypot(pointA.x - pointB.x, pointA.y - pointB.y)
 
           // Connect the 2 points with a line if the distance is small enough

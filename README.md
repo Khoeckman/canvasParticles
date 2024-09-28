@@ -2,9 +2,8 @@
 
 ## Description
 
-In an HTML canvas, a bunch of floating particles are drawn that connect with a line when they are close to eachother.
-Creating a fun and interactive background.
-Colors, interaction and gravity can be customized!
+In an HTML canvas, a bunch of floating particles connected with lines when they approach eachother.
+Creating a fun and interactive background. Colors, interaction and gravity can be customized!
 
 [Demo](#demo)<br>
 [Implementation](#implementation)<br>
