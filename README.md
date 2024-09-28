@@ -36,9 +36,9 @@ Resize the `<canvas>` so it covers the whole page and place it behind all elemen
 ```
 
 <details>
-  <summary><h3>Import using ES6 modules</h3></summary>
+  <summary><h3>Import using ES modules</h3></summary>
 
-Be aware that using ES6 modules is only possible when running the application on a (local) server.<br>
+Be aware that using ES modules is only possible when running the application on a (local) server.<br>
 [Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
 
 Add a `<script>` element in the `<head>` to import _initParticles.js_.

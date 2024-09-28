@@ -11,7 +11,7 @@
       background-color: #000;
     }
 
-    .particle-canvas {
+    canvas {
       position: absolute;
       top: 0;
       left: 0;
@@ -20,16 +20,16 @@
       z-index: -1;
     }
 
-    #canvas-particles-1 {
+    #cp-1 {
       width: 50%;
     }
 
-    #canvas-particles-2 {
+    #cp-2 {
       left: 50%;
       width: 50%;
     }
 
-    #canvas-particles-3 {
+    #cp-3 {
       top: 100%;
       height: 150%;
     }
@@ -37,13 +37,13 @@
 </head>
 
 <body>
-  <canvas id="canvas-particles-1" class="particle-canvas"></canvas>
-  <canvas id="canvas-particles-2" class="particle-canvas"></canvas>
-  <canvas id="canvas-particles-3" class="particle-canvas"></canvas>
+  <canvas id="cp-1"></canvas>
+  <canvas id="cp-2"></canvas>
+  <canvas id="cp-3"></canvas>
 
   <script>
     const initParticles = () => {
-      new CanvasParticles('#canvas-particles-1', {
+      new CanvasParticles('#cp-1', {
         background: 'linear-gradient(115deg, #354089, black)',
         mouse: {
           interactionType: 2,
@@ -64,7 +64,7 @@
       }).start()
 
       // Initialize second canvas
-      new CanvasParticles('#canvas-particles-2', {
+      new CanvasParticles('#cp-2', {
         background: 'hsl(125, 42%, 35%)',
         resetOnResize: true,
         mouse: {
@@ -78,7 +78,7 @@
       }).start()
 
       // Initialize third canvas
-      new CanvasParticles('#canvas-particles-3', {
+      new CanvasParticles('#cp-3', {
         background: '#423',
         mouse: {
           connectDistMult: 0.5,
