@@ -5,7 +5,7 @@
  * Canvas Particles JS
  *
  * @module CanvasParticles
- * @version 3.2.2
+ * @version 3.2.3
  */
 export default class CanvasParticles {
   animating = false
