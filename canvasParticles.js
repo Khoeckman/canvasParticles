@@ -5,17 +5,17 @@
  * Canvas Particles JS
  *
  * @class CanvasParticles
- * @version 3.2.4
+ * @version 3.2.5
  */
 globalThis.CanvasParticles = class CanvasParticles {
   animating = false
 
   /**
    * Creates a new CanvasParticles instance.
-   * @param {string} [selector='canvas'] - The CSS selector for the canvas element. Defaults to 'canvas'.
+   * @param {string} [selector] - The CSS selector for the canvas element.
    * @param {Object} [options={}] - Object structure: https://github.com/Khoeckman/canvasParticles?tab=readme-ov-file#options
    */
-  constructor(selector = 'canvas', options = {}) {
+  constructor(selector, options = {}) {
     // Find and initialize canvas
     if (typeof selector !== 'string') throw new TypeError('selector is not a string')
 
