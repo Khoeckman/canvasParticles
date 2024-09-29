@@ -12,7 +12,7 @@ Creating a fun and interactive background. Colors, interaction and gravity can b
 
 ## Showcase
 
-If you dont like reading documentation you will like this website:
+If you dont like reading documentation this website is for you:
 [http://kylehoeckman.great-site.net/canvas-particles/](http://kylehoeckman.great-site.net/canvas-particles/)
 
 ## Implementation

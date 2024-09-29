@@ -5,7 +5,7 @@
  * Canvas Particles JS
  *
  * @class CanvasParticles
- * @version 3.2.5
+ * @version 3.2.6
  */
 globalThis.CanvasParticles = class CanvasParticles {
   animating = false
