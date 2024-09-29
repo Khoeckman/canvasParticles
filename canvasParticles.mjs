@@ -341,7 +341,9 @@ export default class CanvasParticles {
 
         // Draw a line if its visible
         if (this.isLineVisible(pointA, pointB) | drawAll) {
-          const dist = Math.hypot(pointA.x - pointB.x, pointA.y - pointB.y)
+          const distX = pointA.x - pointB.x
+          const distY = pointA.y - pointB.y
+          const dist = Math.sqrt(distX * distX + distY * distY)
 
           // Connect the 2 points with a line if the distance is small enough
           if (dist < this.options.particles.connectDist) {
