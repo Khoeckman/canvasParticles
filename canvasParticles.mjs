@@ -5,7 +5,7 @@
  * Canvas Particles JS
  *
  * @module CanvasParticles
- * @version 3.2.3
+ * @version 3.2.4
  */
 export default class CanvasParticles {
   animating = false
@@ -92,7 +92,7 @@ export default class CanvasParticles {
       this.options.particles.color = this.ctx.fillStyle
     }
 
-    if (typeof this.options.background === 'string') this.canvas.style.background = this.options.background
+    this.setBackground(this.options.background)
     this.resizeCanvas()
 
     const updateMousePos = event => {
@@ -399,5 +399,9 @@ export default class CanvasParticles {
   stop = () => {
     this.animating = false
     this.canvas.width = this.canvas.width
+  }
+
+  setBackground = background => {
+    if (typeof background === 'string') this.canvas.style.background = this.options.background = background
   }
 }

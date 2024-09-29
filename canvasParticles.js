@@ -1,15 +1,13 @@
 // Copyright (c) 2022 - 2024 Kyle Hoeckman, MIT License
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
-'use strict'
-
 /**
  * Canvas Particles JS
  *
  * @class CanvasParticles
- * @version 3.2.3
+ * @version 3.2.4
  */
-class CanvasParticles {
+globalThis.CanvasParticles = class CanvasParticles {
   animating = false
 
   /**
@@ -94,7 +92,7 @@ class CanvasParticles {
       this.options.particles.color = this.ctx.fillStyle
     }
 
-    if (typeof this.options.background === 'string') this.canvas.style.background = this.options.background
+    this.setBackground(this.options.background)
     this.resizeCanvas()
 
     const updateMousePos = event => {
@@ -401,5 +399,9 @@ class CanvasParticles {
   stop = () => {
     this.animating = false
     this.canvas.width = this.canvas.width
+  }
+
+  setBackground = background => {
+    if (typeof background === 'string') this.canvas.style.background = this.options.background = background
   }
 }

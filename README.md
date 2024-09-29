@@ -5,13 +5,14 @@
 In an HTML canvas, a bunch of floating particles connected with lines when they approach eachother.
 Creating a fun and interactive background. Colors, interaction and gravity can be customized!
 
-[Demo](#demo)<br>
+[Showcase](#showcase)<br>
 [Implementation](#implementation)<br>
 [Options](#options)<br>
 [Example](#example)
 
-## Demo
+## Showcase
 
+If you dont like reading documentation you will like this website:
 [http://kylehoeckman.great-site.net/canvas-particles/](http://kylehoeckman.great-site.net/canvas-particles/)
 
 ## Implementation
@@ -36,33 +37,7 @@ Resize the `<canvas>` so it covers the whole page and place it behind all elemen
 ```
 
 <details>
-  <summary><h3>Import using ES modules</h3></summary>
-
-Be aware that using ES modules is only possible when running the application on a (local) server.<br>
-[Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
-
-Add a `<script>` element in the `<head>` to import _initParticles.js_.
-
-```html
-<head>
-  <script src="./initParticles.js" type="module"></script>
-</head>
-```
-
-Inside _initParticles.js_:
-
-```js
-import CanvasParticles from './canvasParticles.mjs'
-
-const selector = '#canvas-particles-1' // Query Selector for the canvas
-const options = {} // See #options
-new CanvasParticles(selector, options).start()
-```
-
-</details>
-
-<details>
-  <summary><h3>Import using global scope</h3></summary>
+  <summary><h3>Import globally</h3></summary>
   
   Add a `<script>` element in the `<head>` to import the *canvasParticles.js* file.<br>
   ```html
@@ -86,6 +61,32 @@ Add an inline `<script>` element at the very bottom of the `<body>`.
     document.addEventListener('DOMContentLoaded', initParticles)
   </script>
 </body>
+```
+
+</details>
+
+<details>
+  <summary><h3>Import as ES module</h3></summary>
+
+Be aware that using ES modules is only possible when running the application on a (local) server.<br>
+[Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+
+Add a `<script>` element in the `<head>` to import _initParticles.js_.
+
+```html
+<head>
+  <script src="./initParticles.js" type="module"></script>
+</head>
+```
+
+Inside _initParticles.js_:
+
+```js
+import CanvasParticles from './canvasParticles.mjs'
+
+const selector = '#canvas-particles-1' // Query Selector for the canvas
+const options = {} // See #options
+new CanvasParticles(selector, options).start()
 ```
 
 </details>
