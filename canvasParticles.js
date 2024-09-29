@@ -1,4 +1,4 @@
-// Copyright (c) 2022 - 2024 Kyle Hoeckman, MIT License
+// Copyright (c) 2022–2024 Kyle Hoeckman, MIT License
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
 /**
