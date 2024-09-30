@@ -133,7 +133,8 @@ particles.options.particles.color = 'blue'
 
 ## Options
 
-Configuration options for the particles and their behavior.
+Configuration options for the particles and their behavior.<br>
+Play around with these values: [Playground](http://kylehoeckman.great-site.net/canvas-particles/#playground)
 
 <details>
   <summary><h3>Options structure</h3></summary>
