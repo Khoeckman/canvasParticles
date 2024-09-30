@@ -2,7 +2,7 @@
 
 <span class="badge-npmversion"><a href="https://npmjs.org/package/canvasparticles-js" title="View this project on NPM"><img src="https://img.shields.io/npm/v/canvasparticles-js.svg" alt="NPM version" /></a></span>
 <span class="badge-npmdownloads"><a href="https://npmjs.org/package/canvasparticles-js" title="View this project on NPM"><img src="https://img.shields.io/npm/dm/canvasparticles-js.svg" alt="NPM downloads" /></a></span>
-[![](https://data.jsdelivr.com/v1/package/npm/canvasparticles-js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/canvasparticles-js)
+<span><a href="https://www.jsdelivr.com/package/npm/canvasparticles-js" title="View this project on jsDelivr"><img src="https://data.jsdelivr.com/v1/package/npm/canvasparticles-js/badge?style=rounded" alt="jsDelivr hits" /></a></span>
 
 ## Description
 
