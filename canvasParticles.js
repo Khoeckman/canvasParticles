@@ -5,7 +5,7 @@
  * Canvas Particles JS
  *
  * @class CanvasParticles
- * @version 3.2.6
+ * @version 3.2.7
  */
 globalThis.CanvasParticles = class CanvasParticles {
   animating = false
@@ -115,6 +115,7 @@ globalThis.CanvasParticles = class CanvasParticles {
     this.canvas.width = this.canvas.offsetWidth
     this.canvas.height = this.canvas.offsetHeight
 
+    // Hide mouse before first MouseMove event
     this.mouseX = Infinity
     this.mouseY = Infinity
 
