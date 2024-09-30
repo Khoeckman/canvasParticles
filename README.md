@@ -94,7 +94,7 @@ new CanvasParticles(selector, options).start()
 <details>
   <summary><h3>Import with jsDelivr</h3></summary>
 
-Add the following `<script>` elements in the `<head>`:
+Add a `<script>` element in the `<head>` to import `CanvasParticles`.
 
 ```html
 <head>

@@ -8,7 +8,7 @@
  * @version 3.2.9
  */
 export default class CanvasParticles {
-  version = '3.2.9'
+  static version = '3.2.9'
   animating = false
 
   /**
