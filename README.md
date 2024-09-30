@@ -20,13 +20,13 @@ If you dont like reading documentation this website is for you:<br>
 Particles will be drawn onto this `<canvas>` element
 
 ```html
-<canvas id="canvas-particles-1"></canvas>
+<canvas id="canvas-particles"></canvas>
 ```
 
 Resize the `<canvas>` so it covers the whole page and place it behind all elements.
 
 ```css
-#canvas-particles-1 {
+#canvas-particles {
   position: fixed;
   top: 0;
   left: 0;
@@ -54,7 +54,7 @@ Add an inline `<script>` element at the very bottom of the `<body>`.
 
   <script>
     const initParticles = () => {
-      const selector = '#canvas-particles-1' // Query Selector for the canvas
+      const selector = '#canvas-particles' // Query Selector for the canvas
       const options = {} // See #options
       new CanvasParticles(selector, options).start()
     }
@@ -84,12 +84,33 @@ Inside _initParticles.js_:
 ```js
 import CanvasParticles from './canvasParticles.mjs'
 
-const selector = '#canvas-particles-1' // Query Selector for the canvas
+const selector = '#canvas-particles' // Query Selector for the canvas
 const options = {} // See #options
 new CanvasParticles(selector, options).start()
 ```
 
 </details>
+
+<details>
+  <summary><h3>Import with jsDelivr</h3></summary>
+
+Add the following `<script>` elements in the `<head>`:
+
+```html
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/canvasparticles-js@3.2/canvasParticles.min.js" defer></script>
+</head>
+```
+
+</details>
+
+Start animating:
+
+```js
+const selector = '#canvas-particles' // Query Selector for the canvas
+const options = {} // See #options
+new CanvasParticles(selector, options).start()
+```
 
 ### Starting and stopping animation
 
@@ -97,6 +118,17 @@ new CanvasParticles(selector, options).start()
 const particles = new CanvasParticles(selector, options)
 particles.start()
 particles.stop()
+```
+
+### Update options on the fly
+
+Only options.background has a setter.
+Not all options can be updated without setter!
+
+```js
+const particles = new CanvasParticles(selector, options)
+particles.setBackground('red')
+particles.options.particles.color = 'blue'
 ```
 
 ## Options
@@ -222,7 +254,7 @@ const options = {
     <meta charset="utf-8" />
     <script src="./canvasParticles.js" defer></script>
     <style>
-      #canvas-particles-1 {
+      #canvas-particles {
         position: absolute;
         width: 100%;
         height: 100%;
@@ -232,10 +264,10 @@ const options = {
   </head>
 
   <body>
-    <canvas id="canvas-particles-1"></canvas>
+    <canvas id="canvas-particles"></canvas>
 
     <script>
-      const selector = '#canvas-particles-1'
+      const selector = '#canvas-particles'
       const options = {
         background: 'hsl(125, 42%, 35%)',
         mouse: {
