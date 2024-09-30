@@ -5,10 +5,10 @@
  * Canvas Particles JS
  *
  * @module CanvasParticles
- * @version 3.2.9
+ * @version 3.2.10
  */
 export default class CanvasParticles {
-  static version = '3.2.9'
+  static version = '3.2.10'
   animating = false
 
   /**
