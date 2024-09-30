@@ -129,13 +129,17 @@ particles.stop()
 
 ### Update options on the fly
 
-Only options.background has a setter.
-Not all options can be updated without setter!
-
 ```js
 const particles = new CanvasParticles(selector, options)
-particles.setBackground('red')
 particles.options.particles.color = 'blue'
+
+// Required usage of setter for options.background
+particles.setBackground('red')
+
+// Changing options.particles.ppm or options.particles.max requires a reset or resize
+particles.options.particles.ppm = 100
+particles.options.particles.max = 300
+particles.newParticles() // reset
 ```
 
 ## Options
@@ -218,11 +222,14 @@ const options = {
     connectDistance: 150,
 
     /** @param {number} [options.particles.relSpeed=1] - The relative moving speed of the particles.
-     * The moving speed is a random value between 0.5 and 1 pixels per update.
-     * @example 2 relSpeed = 1 to 2 pixels per update
-     * @example 0.5 relSpeed = 0.25 to 0.5 pixels per update
+     * The moving speed is a random value between 0.5 and 1 pixels per update multiplied by this value.
      */
     relSpeed: 0.8,
+
+    /** @param {number} [options.particles.relSize=1] - The relative size of the particles.
+     * The ray is a random value between 0.5 and 2.5 pixels multiplied by this value.
+     */
+    relSize: 1.1,
 
     /** @param {number} [options.particles.rotationSpeed=2] - The speed at which the particles randomly changes direction.
      * @example 1 rotationSpeed = max direction change of 0.01 radians per update

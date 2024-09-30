@@ -43,6 +43,7 @@ export default class CanvasParticles {
         maxWork: Math.max(0, options.particles?.maxWork ?? Infinity),
         connectDist: Math.max(1, options.particles?.connectDistance ?? 150),
         relSpeed: Math.max(0, options.particles?.relSpeed ?? 1),
+        relSize: Math.max(0, options.particles?.relSize ?? 1),
         rotationSpeed: Math.max(0, (options.particles?.rotationSpeed ?? 2) / 100),
       },
       gravity: {
@@ -64,11 +65,14 @@ export default class CanvasParticles {
     if (isNaN(this.options.particles.maxWork)) this.options.particles.maxWork = Infinity
     if (isNaN(this.options.particles.connectDist)) this.options.particles.connectDist = 150
     if (isNaN(this.options.particles.relSpeed)) this.options.particles.relSpeed = 1
+    if (isNaN(this.options.particles.relSize)) this.options.particles.relSize = 1
     if (isNaN(this.options.particles.rotationSpeed)) this.options.particles.rotationSpeed = 0.02
 
     if (isNaN(this.options.gravity.repulsive)) this.options.gravity.repulsive = 0
     if (isNaN(this.options.gravity.pulling)) this.options.gravity.pulling = 0
     if (isNaN(this.options.gravity.friction)) this.options.gravity.friction = 0.9
+
+    this.setBackground(this.options.background)
 
     // Transform distance multiplier to absolute distance
     this.options.mouse.connectDist = this.options.particles.connectDist * this.options.mouse.connectDistMult
@@ -93,7 +97,8 @@ export default class CanvasParticles {
       this.options.particles.color = this.ctx.fillStyle
     }
 
-    this.setBackground(this.options.background)
+    // Event handling
+    window.addEventListener('resize', this.resizeCanvas)
     this.resizeCanvas()
 
     const updateMousePos = event => {
@@ -106,8 +111,6 @@ export default class CanvasParticles {
       this.mouseX = this.clientX - this.canvas.offsetLeft + window.scrollX
       this.mouseY = this.clientY - this.canvas.offsetTop + window.scrollY
     }
-
-    window.addEventListener('resize', () => this.resizeCanvas())
     window.addEventListener('mousemove', updateMousePos)
     window.addEventListener('scroll', updateMousePos)
   }
@@ -166,7 +169,7 @@ export default class CanvasParticles {
       offY: 0, // Vertical distance from drawn to logical position in pixels
       dir: dir || Math.random() * 2 * Math.PI, // Direction in radians
       speed: speed || (0.5 + Math.random() * 0.5) * this.options.particles.relSpeed, // Velocity in pixels per update
-      size: size || 0.5 + Math.random() ** 5 * 2, // Ray in pixels of the particle
+      size: size || 0.5 + Math.random() ** 5 * 2 * this.options.particles.relSize, // Ray in pixels of the particle
     })
     const point = this.particles.at(-1)
     point.gridPos = this.gridPos(point) // The location of the particle relative to the visible center of the canvas
