@@ -4,10 +4,11 @@
 /**
  * Canvas Particles JS
  *
- * @module CanvasParticles
- * @version 3.2.7
+ * @class CanvasParticles
+ * @version 3.2.8
  */
-export default class CanvasParticles {
+class CanvasParticles {
+  version = '3.2.8'
   animating = false
 
   /**
@@ -408,3 +409,9 @@ export default class CanvasParticles {
     if (typeof background === 'string') this.canvas.style.background = this.options.background = background
   }
 }
+
+if (typeof module !== undefined) {
+  try {
+    module.exports = CanvasParticles
+  } catch (err) {}
+} else globalThis.CanvasParticles = CanvasParticles
