@@ -104,7 +104,7 @@ Add the following `<script>` elements in the `<head>`:
 
 </details>
 
-Start animating:
+### Start animating
 
 ```js
 const selector = '#canvas-particles' // Query Selector for the canvas

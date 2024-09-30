@@ -5,7 +5,7 @@
  * Canvas Particles JS
  *
  * @class CanvasParticles
- * @version 3.2.8
+ * @version 3.2.9
  */
 class CanvasParticles {
   version = '3.2.8'
