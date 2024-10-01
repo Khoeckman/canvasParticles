@@ -73,29 +73,11 @@ export default class CanvasParticles {
     if (isNaN(this.options.gravity.friction)) this.options.gravity.friction = 0.9
 
     this.setBackground(this.options.background)
+    this.setParticleColor(this.options.particles.color)
 
     // Transform distance multiplier to absolute distance
     this.options.mouse.connectDist = this.options.particles.connectDist * this.options.mouse.connectDistMult
     delete this.options.mouse.connectDistMult
-
-    // Format particle color and opacity
-    this.ctx.fillStyle = this.options.particles.color
-
-    if (this.ctx.fillStyle[0] === '#') {
-      this.options.particles.opacity = { value: 255, hex: 'ff' }
-      this.options.particles.color = this.ctx.fillStyle
-    } else {
-      // Example: extract 0.25 from rgba(136, 244, 255, 0.25) and convert to range 0x00 to 0xff and store as a 2 char string
-      const value = ~~(this.ctx.fillStyle.split(',').at(-1).slice(1, -1) * 255)
-      this.options.particles.opacity = {
-        value: value,
-        hex: value.toString(16),
-      }
-
-      // Example: extract 136, 244 and 255 from rgba(136, 244, 255, 0.25) and convert to '#001122' format
-      this.ctx.fillStyle = this.ctx.fillStyle.split(',').slice(0, -1).join(',') + ', 1)'
-      this.options.particles.color = this.ctx.fillStyle
-    }
 
     // Event handling
     window.addEventListener('resize', this.resizeCanvas)
@@ -410,5 +392,29 @@ export default class CanvasParticles {
 
   setBackground = background => {
     if (typeof background === 'string') this.canvas.style.background = this.options.background = background
+  }
+
+  /**
+   * Format particle color and opacity
+   * @param {string} color - The color of the particles and their connections. Can be any CSS supported color format.
+   */
+  setParticleColor = color => {
+    this.ctx.fillStyle = color
+
+    if (this.ctx.fillStyle[0] === '#') {
+      this.options.particles.opacity = { value: 255, hex: 'ff' }
+      this.options.particles.color = this.ctx.fillStyle
+    } else {
+      // Example: extract 0.25 from rgba(136, 244, 255, 0.25) and convert to range 0x00 to 0xff and store as a 2 char string
+      const value = ~~(this.ctx.fillStyle.split(',').at(-1).slice(1, -1) * 255)
+      this.options.particles.opacity = {
+        value: value,
+        hex: value.toString(16),
+      }
+
+      // Example: extract 136, 244 and 255 from rgba(136, 244, 255, 0.25) and convert to '#001122' format
+      this.ctx.fillStyle = this.ctx.fillStyle.split(',').slice(0, -1).join(',') + ', 1)'
+      this.options.particles.color = this.ctx.fillStyle
+    }
   }
 }
