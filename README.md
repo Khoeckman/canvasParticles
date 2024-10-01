@@ -133,13 +133,17 @@ particles.stop()
 const particles = new CanvasParticles(selector, options)
 particles.options.particles.color = 'blue'
 
-// Required usage of setter for options.background
+// Required usage of setter for options.background and options.particles.color
 particles.setBackground('red')
+particles.setParticleColor('hsl(149, 100%, 50%)')
 
-// Changing options.particles.ppm or options.particles.max requires a reset or resize
+// Changing options.particles.ppm or options.particles.max requires a reset
 particles.options.particles.ppm = 100
 particles.options.particles.max = 300
-particles.newParticles() // reset
+particles.newParticles() // required reset
+
+// All other options work on the fly
+particles.options.gravity.repulsive = 1
 ```
 
 ## Options
