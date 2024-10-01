@@ -145,7 +145,7 @@ particles.newParticles() // reset
 ## Options
 
 Configuration options for the particles and their behavior.<br>
-Play around with these values: [Playground](http://kylehoeckman.great-site.net/canvas-particles/#playground)
+Play around with these values: [Sandbox](http://kylehoeckman.great-site.net/canvas-particles/#sandbox)
 
 <details>
   <summary><h3>Options structure</h3></summary>
