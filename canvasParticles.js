@@ -5,10 +5,10 @@
  * Canvas Particles JS
  *
  * @class CanvasParticles
- * @version 3.2.11
+ * @version 3.2.12
  */
 class CanvasParticles {
-  static version = '3.2.11'
+  static version = '3.2.12'
   animating = false
 
   /**
