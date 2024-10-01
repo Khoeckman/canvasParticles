@@ -413,8 +413,9 @@ class CanvasParticles {
   }
 }
 
-if (typeof module !== undefined) {
-  try {
-    module.exports = CanvasParticles
-  } catch (err) {}
-} else globalThis.CanvasParticles = CanvasParticles
+try {
+  if (typeof module !== undefined) module.exports = CanvasParticles
+  else globalThis.CanvasParticles = CanvasParticles
+} catch (err) {
+  console.log('Error while exporting canvasparticles-js:', err)
+}
