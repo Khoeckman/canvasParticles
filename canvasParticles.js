@@ -5,10 +5,10 @@
  * Canvas Particles JS
  *
  * @class CanvasParticles
- * @version 3.2.12
+ * @version 3.2.13
  */
 class CanvasParticles {
-  static version = '3.2.12'
+  static version = '3.2.13'
   animating = false
 
   /**
@@ -421,7 +421,6 @@ class CanvasParticles {
 
 try {
   if (typeof module !== undefined) module.exports = CanvasParticles
-  else globalThis.CanvasParticles = CanvasParticles
 } catch (err) {
-  console.log('Error while exporting canvasparticles-js:', err)
+  globalThis.CanvasParticles = CanvasParticles
 }
