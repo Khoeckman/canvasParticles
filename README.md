@@ -155,7 +155,7 @@ Play around with these values: [Sandbox](http://kylehoeckman.great-site.net/canv
   <summary><h3>Options structure</h3></summary>
 
 The default value will be used when an option is assigned an invalid value.<br>
-All recommendations are for a 179 particles at 60 updates/s. (see options.particles.ppm)
+Your screen resolution and refresh rate will directly impact perfomance!
 
 ```js
 const options = {
