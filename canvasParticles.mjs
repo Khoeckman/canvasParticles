@@ -5,11 +5,10 @@
  * Canvas Particles JS
  *
  * @module CanvasParticles
- * @version 3.2.15
+ * @version 3.2.16
  */
 export default class CanvasParticles {
-  static version = '3.2.15'
-  animating = false
+  static version = '3.2.16'
 
   /**
    * Creates a new CanvasParticles instance.
@@ -26,6 +25,18 @@ export default class CanvasParticles {
     // Get 2d drawing functions
     this.ctx = this.canvas.getContext('2d')
 
+    this.animating = false
+    this.formatOptions(options)
+
+    // Event handling
+    window.addEventListener('resize', this.resizeCanvas)
+    this.resizeCanvas()
+
+    window.addEventListener('mousemove', this.updateMousePos)
+    window.addEventListener('scroll', this.updateMousePos)
+  }
+
+  formatOptions = options => {
     // Format and store options
     this.options = {
       background: options.background ?? false,
@@ -72,29 +83,23 @@ export default class CanvasParticles {
     if (isNaN(this.options.gravity.pulling)) this.options.gravity.pulling = 0
     if (isNaN(this.options.gravity.friction)) this.options.gravity.friction = 0.9
 
-    this.setBackground(this.options.background)
-    this.setParticleColor(this.options.particles.color)
-
     // Transform distance multiplier to absolute distance
     this.options.mouse.connectDist = this.options.particles.connectDist * this.options.mouse.connectDistMult
     delete this.options.mouse.connectDistMult
 
-    // Event handling
-    window.addEventListener('resize', this.resizeCanvas)
-    this.resizeCanvas()
+    this.setBackground(this.options.background)
+    this.setParticleColor(this.options.particles.color)
+  }
 
-    const updateMousePos = event => {
-      if (!this.animating) return
+  updateMousePos = event => {
+    if (!this.animating) return
 
-      if (event instanceof MouseEvent) {
-        this.clientX = event.clientX
-        this.clientY = event.clientY
-      }
-      this.mouseX = this.clientX - this.canvas.offsetLeft + window.scrollX
-      this.mouseY = this.clientY - this.canvas.offsetTop + window.scrollY
+    if (event instanceof MouseEvent) {
+      this.clientX = event.clientX
+      this.clientY = event.clientY
     }
-    window.addEventListener('mousemove', updateMousePos)
-    window.addEventListener('scroll', updateMousePos)
+    this.mouseX = this.clientX - this.canvas.offsetLeft + window.scrollX
+    this.mouseY = this.clientY - this.canvas.offsetTop + window.scrollY
   }
 
   resizeCanvas = () => {
