@@ -5,10 +5,10 @@
  * Canvas Particles JS
  *
  * @module CanvasParticles
- * @version 3.2.16
+ * @version 3.2.17
  */
 export default class CanvasParticles {
-  static version = '3.2.16'
+  static version = '3.2.17'
 
   /**
    * Creates a new CanvasParticles instance.
@@ -125,7 +125,7 @@ export default class CanvasParticles {
   }
 
   /**
-   * Remove all particles and generates new ones.
+   * Remove all particles and generate new ones.
    * The amount of new particles will match 'options.particles.ppm'
    * */
   newParticles = () => {
