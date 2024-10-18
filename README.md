@@ -131,7 +131,6 @@ particles.stop()
 
 ```js
 const particles = new CanvasParticles(selector, options)
-particles.options.particles.color = 'blue'
 
 // Required usage of setter for options.background and options.particles.color
 particles.setBackground('red')
