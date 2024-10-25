@@ -1,14 +1,8 @@
 // Copyright (c) 2022–2024 Kyle Hoeckman, MIT License
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
-/**
- * Canvas Particles JS
- *
- * @class CanvasParticles
- * @version 3.2.17
- */
 class CanvasParticles {
-  static version = '3.2.17'
+  static version = '3.2.18'
 
   /**
    * Creates a new CanvasParticles instance.
