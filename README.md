@@ -141,7 +141,7 @@ particles.options.particles.ppm = 100
 particles.options.particles.max = 300
 particles.newParticles() // required reset
 
-// All other options work on the fly
+// All other options can be updated on the fly
 particles.options.gravity.repulsive = 1
 ```
 

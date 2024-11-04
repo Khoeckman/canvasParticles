@@ -1,6 +1,6 @@
 {
   "name": "canvasparticles-js",
-  "version": "3.2.18",
+  "version": "3.2.19",
   "description": "In an HTML canvas, a bunch of floating particles connected with lines when they approach eachother. Creating a fun and interactive background.",
   "main": "canvasParticles.js",
   "type": "module",
@@ -12,12 +12,25 @@
     "front-end",
     "frontend",
     "canvas",
-    "particles",
     "particle",
+    "particles",
+    "jsparticles",
+    "js-particles",
+    "particles.js",
+    "particles-js",
+    "xparticles",
+    "background",
     "animation",
     "animated",
+    "interactive",
+    "interaction",
+    "web",
+    "webdesign",
+    "web-design",
     "javascript",
     "js",
+    "ecmascript",
+    "module",
     "html5",
     "html"
   ],
@@ -26,5 +39,8 @@
   "bugs": {
     "url": "https://github.com/Khoeckman/canvasParticles/issues"
   },
-  "homepage": "http://kylehoeckman.great-site.net/canvas-particles/"
+  "homepage": "http://kylehoeckman.great-site.net/canvas-particles/",
+  "publishConfig": {
+    "registry": "https://r.privjs.com"
+  }
 }

@@ -2,7 +2,7 @@
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
 class CanvasParticles {
-  static version = '3.2.18'
+  static version = '3.2.19'
 
   /**
    * Creates a new CanvasParticles instance.
