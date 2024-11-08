@@ -1,6 +1,6 @@
 {
   "name": "canvasparticles-js",
-  "version": "3.2.20",
+  "version": "3.2.21",
   "description": "In an HTML canvas, a bunch of floating particles connected with lines when they approach eachother. Creating a fun and interactive background.",
   "main": "canvasParticles.js",
   "type": "module",
@@ -35,7 +35,7 @@
     "html"
   ],
   "author": "Kyle Hoeckman",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Khoeckman/canvasParticles/issues"
   },

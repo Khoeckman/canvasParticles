@@ -2,7 +2,7 @@
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
 export default class CanvasParticles {
-  static version = '3.2.19'
+  static version = '3.2.21'
 
   /**
    * Creates a new CanvasParticles instance.
@@ -14,7 +14,7 @@ export default class CanvasParticles {
     if (typeof selector !== 'string') throw new TypeError('selector is not a string')
 
     this.canvas = document.querySelector(selector)
-    if (!(this.canvas instanceof HTMLCanvasElement)) throw new ReferenceError('selector does not point to a canvas')
+    if (!(this.canvas instanceof HTMLCanvasElement)) throw new Error('selector does not point to a canvas')
 
     // Get 2d drawing functions
     this.ctx = this.canvas.getContext('2d')
@@ -210,13 +210,11 @@ export default class CanvasParticles {
 
     for (let particle of this.particles) {
       // Moving the particle
-      particle.dir =
-        (particle.dir + Math.random() * this.options.particles.rotationSpeed * 2 - this.options.particles.rotationSpeed) % (2 * Math.PI)
+      particle.dir = (particle.dir + Math.random() * this.options.particles.rotationSpeed * 2 - this.options.particles.rotationSpeed) % (2 * Math.PI)
       particle.velX *= this.options.gravity.friction
       particle.velY *= this.options.gravity.friction
       particle.posX = (particle.posX + particle.velX + ((Math.sin(particle.dir) * particle.speed) % this.width) + this.width) % this.width
-      particle.posY =
-        (particle.posY + particle.velY + ((Math.cos(particle.dir) * particle.speed) % this.height) + this.height) % this.height
+      particle.posY = (particle.posY + particle.velY + ((Math.cos(particle.dir) * particle.speed) % this.height) + this.height) % this.height
 
       const distX = particle.posX + this.offX - this.mouseX
       const distY = particle.posY + this.offY - this.mouseY
@@ -344,9 +342,7 @@ export default class CanvasParticles {
           if (dist < this.options.particles.connectDist) {
             // Calculate the transparency of the line
             if (dist >= this.options.particles.connectDist / 2) {
-              const alpha = Math.floor(
-                Math.min(this.options.particles.connectDist / dist - 1, 1) * this.options.particles.opacity.value
-              ).toString(16)
+              const alpha = Math.floor(Math.min(this.options.particles.connectDist / dist - 1, 1) * this.options.particles.opacity.value).toString(16)
               this.ctx.strokeStyle = this.options.particles.color + (alpha.length === 2 ? alpha : '0' + alpha)
             } else this.ctx.strokeStyle = this.options.particles.color + this.options.particles.opacity.hex
 
