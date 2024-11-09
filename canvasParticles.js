@@ -92,8 +92,9 @@ class CanvasParticles {
       this.clientX = event.clientX
       this.clientY = event.clientY
     }
-    this.mouseX = this.clientX - this.canvas.offsetLeft + window.scrollX
-    this.mouseY = this.clientY - this.canvas.offsetTop + window.scrollY
+    const { left, top } = this.canvas.getBoundingClientRect()
+    this.mouseX = this.clientX - left
+    this.mouseY = this.clientY - top
   }
 
   resizeCanvas = () => {
@@ -161,8 +162,6 @@ class CanvasParticles {
       bottom: this.canvas.height + particle.size,
       left: -particle.size,
     }
-    particle.gridPos = this.gridPos(particle) // The location of the particle relative to the visible center of the canvas
-    particle.isVisible = particle.gridPos.x === 1 && particle.gridPos.y === 1
   }
 
   /**
@@ -242,7 +241,7 @@ class CanvasParticles {
       particle.x += this.offX
       particle.y += this.offY
 
-      particle.gridPos = this.gridPos(particle)
+      particle.gridPos = this.gridPos(particle) // The location of the particle relative to the visible center of the canvas
       particle.isVisible = particle.gridPos.x === 1 && particle.gridPos.y === 1
     }
   }
