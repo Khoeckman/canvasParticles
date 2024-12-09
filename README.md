@@ -127,24 +127,6 @@ particles.start()
 particles.stop()
 ```
 
-### Update options on the fly
-
-```js
-const particles = new CanvasParticles(selector, options)
-
-// Required usage of setter for options.background and options.particles.color
-particles.setBackground('red')
-particles.setParticleColor('hsl(149, 100%, 50%)')
-
-// Changing options.particles.ppm or options.particles.max requires a reset
-particles.options.particles.ppm = 100
-particles.options.particles.max = 300
-particles.newParticles() // required reset
-
-// All other options can be updated on the fly
-particles.options.gravity.repulsive = 1
-```
-
 ## Options
 
 Configuration options for the particles and their behavior.<br>
@@ -263,7 +245,51 @@ const options = {
 
 </details>
 
-## Example
+### Update options on the fly
+
+**Note:** Options changed after the initial class construction without using a setter are not validated. Assigning invalid values will lead to unexpected behavior and system errors.
+
+#### Using setter
+
+The following options have dedicated setters that must be used to update their values:
+
+- options.background
+- options.mouse.connectDistMult
+- options.particles.color
+
+```js
+const particles = new CanvasParticles(selector, options)
+
+// Use the setters to update these specific options
+particles.setBackground('red')
+particles.setMouseConnectDistMult(0.8)
+particles.setParticleColor('hsl(149, 100%, 50%)')
+```
+
+#### Requires particle reset
+
+The following options require `newParticles()` to be called after they are updated to apply changes:
+
+- options.particles.ppm
+- options.particles.max
+
+```js
+particles.options.particles.ppm = 100
+particles.options.particles.max = 300
+particles.newParticles() // Required reset to apply changes
+```
+
+#### Other
+
+**All** other options can be updated by simply modifying the `options` object properties.
+
+```js
+particles.options.mouse.interactionType = 0
+particles.options.particles.connectDist = 200
+particles.options.gravity.repulsive = 1
+```
+
+## One pager example
 
 ```html
 <!DOCTYPE html>
@@ -274,6 +300,8 @@ const options = {
     <style>
       #canvas-particles {
         position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
         z-index: -1;
