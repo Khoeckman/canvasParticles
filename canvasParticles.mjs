@@ -2,7 +2,7 @@
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
 export default class CanvasParticles {
-  static version = '3.3.1'
+  static version = '3.3.2'
 
   animating = false
   particles = []
@@ -32,7 +32,7 @@ export default class CanvasParticles {
     window.addEventListener('scroll', this.updateMousePos)
   }
 
-  formatOptions(options) {
+  formatOptions = options => {
     // Format and store options
     this.options = {
       background: options.background ?? false,
@@ -83,7 +83,7 @@ export default class CanvasParticles {
     this.setParticleColor(this.options.particles.color)
   }
 
-  updateMousePos(event) {
+  updateMousePos = event => {
     if (!this.animating) return
 
     if (event instanceof MouseEvent) {
@@ -95,7 +95,7 @@ export default class CanvasParticles {
     this.mouseY = this.clientY - top
   }
 
-  resizeCanvas() {
+  resizeCanvas = () => {
     this.canvas.width = this.canvas.offsetWidth
     this.canvas.height = this.canvas.offsetHeight
 
@@ -123,7 +123,7 @@ export default class CanvasParticles {
    * Remove all particles and generate new ones.
    * The amount of new particles will match 'options.particles.ppm'
    * */
-  newParticles() {
+  newParticles = () => {
     this.particles = []
     for (let i = 0; i < this.particleCount; i++) this.createParticle()
   }
@@ -131,12 +131,12 @@ export default class CanvasParticles {
   /**
    * When resizing, add or remove some particles so that the final amount of particles will match 'options.particles.ppm'
    * */
-  matchParticleCount() {
+  matchParticleCount = () => {
     this.particles = this.particles.slice(0, this.particleCount)
     while (this.particleCount > this.particles.length) this.createParticle()
   }
 
-  createParticle(posX, posY, dir, speed, size) {
+  createParticle = (posX, posY, dir, speed, size) => {
     size = size || 0.5 + Math.random() ** 5 * 2 * this.options.particles.relSize
 
     this.particles.push({
@@ -164,7 +164,7 @@ export default class CanvasParticles {
    * Calculates the properties of each particle on the next frame.
    * Is executed once every 'options.framesPerUpdate' frames.
    * */
-  update() {
+  update = () => {
     const len = this.particleCount
     const enabledRepulsive = this.options.gravity.repulsive !== 0
     const enabledPulling = this.options.gravity.pulling !== 0
@@ -263,7 +263,7 @@ export default class CanvasParticles {
    * @returns {number} x - The horizontal grid position (0, 1, or 2).
    * @returns {number} y - The vertical grid position (0, 1, or 2).
    */
-  gridPos(particle) {
+  gridPos = particle => {
     return {
       x: (particle.x >= particle.bounds.left) + (particle.x > particle.bounds.right),
       y: (particle.y >= particle.bounds.top) + (particle.y > particle.bounds.bottom),
@@ -291,7 +291,7 @@ export default class CanvasParticles {
    * Renders the particles and their connections onto the canvas.
    * Connects particles with lines if they are within the connection distance.
    */
-  render() {
+  render = () => {
     this.canvas.width = this.canvas.width // Clear canvas
     this.ctx.fillStyle = this.options.particles.color + this.options.particles.opacity.hex
     this.ctx.lineWidth = 1
@@ -359,7 +359,7 @@ export default class CanvasParticles {
    * Main animation loop that updates and renders the particles.
    * Runs recursively using `requestAnimationFrame`.
    */
-  animation() {
+  animation = () => {
     if (!this.animating) return
 
     requestAnimationFrame(() => this.animation())
@@ -375,7 +375,7 @@ export default class CanvasParticles {
    * Starts the particle animation.
    * If already animating, does nothing.
    */
-  start() {
+  start = () => {
     if (this.animating) return
     this.animating = true
     requestAnimationFrame(() => this.animation())
@@ -384,7 +384,7 @@ export default class CanvasParticles {
   /**
    * Stops the particle animation and clears the canvas.
    */
-  stop() {
+  stop = () => {
     this.animating = false
     this.canvas.width = this.canvas.width
   }
@@ -399,7 +399,7 @@ export default class CanvasParticles {
    * The value is multiplied by particles.connectDistance
    * @example 0.8 connectDistMult * 150 particles.connectDistance = 120 pixels
    */
-  setMouseConnectDistMult(connectDistMult) {
+  setMouseConnectDistMult = connectDistMult => {
     this.options.mouse.connectDist = this.options.particles.connectDist * (isNaN(connectDistMult) ? 2 / 3 : connectDistMult)
   }
 
@@ -407,7 +407,7 @@ export default class CanvasParticles {
    * Format particle color and opacity
    * @param {string} color - The color of the particles and their connections. Can be any CSS supported color format.
    */
-  setParticleColor(color) {
+  setParticleColor = color => {
     this.ctx.fillStyle = color
 
     if (this.ctx.fillStyle[0] === '#') {
