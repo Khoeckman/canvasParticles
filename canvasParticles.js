@@ -2,7 +2,7 @@
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
 class CanvasParticles {
-  static version = '3.3.2'
+  static version = '3.3.3'
 
   animating = false
   particles = []
@@ -117,6 +117,8 @@ class CanvasParticles {
 
     if (this.options.resetOnResize || this.particles.length === 0) this.newParticles()
     else this.matchParticleCount()
+
+    this.updateParticleBounds()
   }
 
   /**
@@ -151,13 +153,21 @@ class CanvasParticles {
       dir: dir || Math.random() * 2 * Math.PI, // Direction in radians
       speed: speed || (0.5 + Math.random() * 0.5) * this.options.particles.relSpeed, // Velocity in pixels per update
       size, // Ray in pixels of the particle
-      bounds: {
-        top: -size,
-        right: this.canvas.width + size,
-        bottom: this.canvas.height + size,
-        left: -size,
-      }, // Within these bounds the particle is considered visible
     })
+    this.updateParticleBounds()
+  }
+
+  updateParticleBounds = () => {
+    this.particles.map(
+      particle =>
+        // Within these bounds the particle is considered visible
+        (particle.bounds = {
+          top: -particle.size,
+          right: this.canvas.width + particle.size,
+          bottom: this.canvas.height + particle.size,
+          left: -particle.size,
+        })
+    )
   }
 
   /**
