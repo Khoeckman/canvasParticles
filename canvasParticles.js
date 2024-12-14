@@ -2,7 +2,7 @@
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
 class CanvasParticles {
-  static version = '3.3.0'
+  static version = '3.3.1'
 
   animating = false
   particles = []
@@ -137,7 +137,8 @@ class CanvasParticles {
   }
 
   createParticle(posX, posY, dir, speed, size) {
-    const size = size || 0.5 + Math.random() ** 5 * 2 * this.options.particles.relSize
+    size = size || 0.5 + Math.random() ** 5 * 2 * this.options.particles.relSize
+
     this.particles.push({
       posX: posX - this.offX || Math.random() * this.width, // Logical position in pixels
       posY: posY - this.offY || Math.random() * this.height, // Logical position in pixels
