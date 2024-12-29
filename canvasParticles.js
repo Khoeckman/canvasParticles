@@ -370,9 +370,6 @@ class CanvasParticles {
         const distX = particleA.x - particleB.x
         const distY = particleA.y - particleB.y
 
-        // Prevent having to calculate the exact distance
-        if (distX + distY > this.options.particles.connectDist) continue
-
         const dist = Math.sqrt(distX * distX + distY * distY)
 
         if (dist > this.options.particles.connectDist) continue
