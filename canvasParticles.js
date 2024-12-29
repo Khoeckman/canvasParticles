@@ -364,29 +364,35 @@ class CanvasParticles {
         const particleA = this.particles[i]
         const particleB = this.particles[j]
 
-        // Draw a line if its visible
-        if (this.isLineVisible(particleA, particleB) | drawAll) {
-          const distX = particleA.x - particleB.x
-          const distY = particleA.y - particleB.y
-          const dist = Math.sqrt(distX * distX + distY * distY)
+        if (!(drawAll || this.isLineVisible(particleA, particleB))) continue
+        // Draw a line only if will be visible
 
-          // Connect the 2 particles with a line only if the distance is small enough
-          if (dist > this.options.particles.connectDist) continue
+        const distX = particleA.x - particleB.x
+        const distY = particleA.y - particleB.y
 
-          // Calculate the transparency of the line and lookup the stroke style
-          if (dist > this.options.particles.connectDist / 2) {
-            const alpha = ~~(Math.min(this.options.particles.connectDist / dist - 1, 1) * this.options.particles.opacity)
-            this.ctx.strokeStyle = this.strokeStyleTable[alpha]
-          } else this.ctx.strokeStyle = this.options.particles.colorWithAlpha
+        // Prevent having to calculate the exact distance
+        if (distX + distY > this.options.particles.connectDist) continue
 
-          // Draw the line
-          this.ctx.beginPath()
-          this.ctx.moveTo(particleA.x, particleA.y)
-          this.ctx.lineTo(particleB.x, particleB.y)
-          this.ctx.stroke()
+        const dist = Math.sqrt(distX * distX + distY * distY)
 
-          if ((work += dist) >= maxWork || (particleWork += dist) >= maxWorkPerParticle) break
+        if (dist > this.options.particles.connectDist) continue
+        // Connect the 2 particles with a line only if the distance is small enough
+
+        // Calculate the transparency of the line and lookup the stroke style
+        if (dist > this.options.particles.connectDist / 2) {
+          const alpha = ~~(Math.min(this.options.particles.connectDist / dist - 1, 1) * this.options.particles.opacity)
+          this.ctx.strokeStyle = this.strokeStyleTable[alpha]
+        } else {
+          this.ctx.strokeStyle = this.options.particles.colorWithAlpha
         }
+
+        // Draw the line
+        this.ctx.beginPath()
+        this.ctx.moveTo(particleA.x, particleA.y)
+        this.ctx.lineTo(particleB.x, particleB.y)
+        this.ctx.stroke()
+
+        if ((work += dist) >= maxWork || (particleWork += dist) >= maxWorkPerParticle) break
       }
       if (work >= maxWork) break
     }
