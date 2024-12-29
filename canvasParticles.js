@@ -328,7 +328,7 @@ class CanvasParticles {
    */
   render = () => {
     this.canvas.width = this.canvas.width // Clear canvas
-    this.ctx.fillStyle = this.options.particles.color + this.options.particles.opacity.hex
+    this.ctx.fillStyle = this.options.particles.colorWithAlpha
     this.ctx.lineWidth = 1
 
     for (let particle of this.particles) {
@@ -374,7 +374,7 @@ class CanvasParticles {
             if (dist >= this.options.particles.connectDist / 2) {
               const alpha = ~~(Math.min(this.options.particles.connectDist / dist - 1, 1) * this.options.particles.opacity.value)
               this.ctx.strokeStyle = this.getStrokeStyle(this.options.particles.color, alpha)
-            } else this.ctx.strokeStyle = this.options.particles.color + this.options.particles.opacity.hex
+            } else this.ctx.strokeStyle = this.options.particles.colorWithAlpha
 
             // Draw the line
             this.ctx.beginPath()
@@ -444,26 +444,23 @@ class CanvasParticles {
    */
   setParticleColor = color => {
     this.strokeStyleTable = {} // Clear the stroke style cache since the color has changed
-
     this.ctx.fillStyle = color
 
+    // Check if the fillStyle is in hex format ("#RRGGBB" without alpha).
     if (this.ctx.fillStyle[0] === '#') {
-      this.options.particles.opacity = { value: 255, hex: 'ff' }
-      this.options.particles.color = this.ctx.fillStyle
-      return
+      this.options.particles.opacity = 255
+    } else {
+      // JavaScript's `ctx.fillStyle` ensures the color will otherwise be in rgba format (e.g., "rgba(136, 244, 255, 0.25)"):
+
+      // Extract the alpha value (0.25) from the rgba string, scale it to the range 0x00 to 0xff,
+      // and convert it to an integer. This value represents the opacity as a 2-character hex string.
+      this.options.particles.opacity = ~~(this.ctx.fillStyle.split(',').at(-1).slice(1, -1) * 255)
+
+      // Example: extract 136, 244 and 255 from rgba(136, 244, 255, 0.25) and convert to hexadecimal '#rrggbb' format
+      this.ctx.fillStyle = this.ctx.fillStyle.split(',').slice(0, -1).join(',') + ', 1)'
     }
-
-    // Example: extract 0.25 from rgba(136, 244, 255, 0.25) and convert to range 0x00 to 0xff and store as a 2 char string
-    const value = ~~(this.ctx.fillStyle.split(',').at(-1).slice(1, -1) * 255)
-
-    this.options.particles.opacity = {
-      value: value,
-      hex: value.toString(16),
-    }
-
-    // Example: extract 136, 244 and 255 from rgba(136, 244, 255, 0.25) and convert to '#001122' format
-    this.ctx.fillStyle = this.ctx.fillStyle.split(',').slice(0, -1).join(',') + ', 1)'
     this.options.particles.color = this.ctx.fillStyle
+    this.options.particles.colorWithAlpha = this.options.particles.color + this.options.particles.opacity.toString(16)
   }
 }
 
