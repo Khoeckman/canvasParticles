@@ -306,7 +306,7 @@ export default class CanvasParticles {
    *
    * @example
    * const strokeStyleTable = generateStrokeStyleTable("#ff0000");
-   * console.log(strokeStyleTable[128]); // "#ff000080"
+   * strokeStyleTable[128] -> "#ff000080"
    *
    * Notes:
    * - This function precomputes all possible stroke styles by appending a two-character
@@ -369,9 +369,6 @@ export default class CanvasParticles {
 
         const distX = particleA.x - particleB.x
         const distY = particleA.y - particleB.y
-
-        // Prevent having to calculate the exact distance
-        if (distX + distY > this.options.particles.connectDist) continue
 
         const dist = Math.sqrt(distX * distX + distY * distY)
 

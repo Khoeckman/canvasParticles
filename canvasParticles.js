@@ -306,7 +306,7 @@ class CanvasParticles {
    *
    * @example
    * const strokeStyleTable = generateStrokeStyleTable("#ff0000");
-   * console.log(strokeStyleTable[128]); // "#ff000080"
+   * strokeStyleTable[128] -> "#ff000080"
    *
    * Notes:
    * - This function precomputes all possible stroke styles by appending a two-character
