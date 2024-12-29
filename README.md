@@ -186,7 +186,7 @@ const options = {
 
     /** @param {number} [options.particles.ppm=100] - Particles per million (ppm).
      * This determines how many particles are created per million pixels of the canvas.
-     * @example FHD on Chrome = 1920 width * 937 height = 1799040 pixels; 1799040 pixels * 100 ppm / 1000000 = 179.904 = 179 particles
+     * @example FHD on Chrome = 1920 width * 937 height = 1799040 pixels; 1799040 pixels * 100 ppm / 1_000_000 = 179.904 = 179 particles
      * @important The amount of particles exponentially reduces performance.
      * People with large screens will have a bad experience with high values.
      * One solution is to increase particles.connectDistance and decrease this value.
