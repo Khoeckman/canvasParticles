@@ -2,7 +2,7 @@
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
 export default class CanvasParticles {
-  static version = '3.3.5'
+  static version = '3.3.6'
 
   animating = false
   particles = []
@@ -317,7 +317,7 @@ export default class CanvasParticles {
   getStrokeStyle = (color, alpha) => {
     if (!this.strokeStyleTable[alpha]) {
       const alphaHex = alpha.toString(16)
-      this.strokeStyleTable[alpha] = color + (alphaHex.length === 2 ? alphaHex : '0' + alphaHex)
+      return (this.strokeStyleTable[alpha] = color + (alphaHex.length === 2 ? alphaHex : '0' + alphaHex))
     }
     return this.strokeStyleTable[alpha]
   }
