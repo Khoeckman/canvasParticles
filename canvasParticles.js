@@ -6,7 +6,7 @@ class CanvasParticles {
 
   animating = false
   particles = []
-  strokeStyleTable = {}
+  strokeStyleTable = []
 
   /**
    * Creates a new CanvasParticles instance.
@@ -327,7 +327,7 @@ class CanvasParticles {
    * Connects particles with lines if they are within the connection distance.
    */
   render = () => {
-    this.canvas.width = this.canvas.width // Clear canvas
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
     this.ctx.fillStyle = this.options.particles.colorWithAlpha
     this.ctx.lineWidth = 1
 
@@ -372,7 +372,7 @@ class CanvasParticles {
           if (dist < this.options.particles.connectDist) {
             // Calculate the transparency of the line and lookup the stroke style
             if (dist >= this.options.particles.connectDist / 2) {
-              const alpha = ~~(Math.min(this.options.particles.connectDist / dist - 1, 1) * this.options.particles.opacity.value)
+              const alpha = ~~(Math.min(this.options.particles.connectDist / dist - 1, 1) * this.options.particles.opacity)
               this.ctx.strokeStyle = this.getStrokeStyle(this.options.particles.color, alpha)
             } else this.ctx.strokeStyle = this.options.particles.colorWithAlpha
 
