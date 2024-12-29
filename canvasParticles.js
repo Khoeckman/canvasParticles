@@ -443,6 +443,8 @@ class CanvasParticles {
    * @param {string} color - The color of the particles and their connections. Can be any CSS supported color format.
    */
   setParticleColor = color => {
+    this.strokeStyleTable = {} // Clear the stroke style cache since the color has changed
+
     this.ctx.fillStyle = color
 
     if (this.ctx.fillStyle[0] === '#') {
@@ -462,8 +464,6 @@ class CanvasParticles {
     // Example: extract 136, 244 and 255 from rgba(136, 244, 255, 0.25) and convert to '#001122' format
     this.ctx.fillStyle = this.ctx.fillStyle.split(',').slice(0, -1).join(',') + ', 1)'
     this.options.particles.color = this.ctx.fillStyle
-
-    this.strokeStyleTable = {} // Clear the stroke style cache since the color has changed
   }
 }
 
