@@ -102,7 +102,7 @@ Add a `<script>` element in the `<head>` to import `CanvasParticles`.
 
 ```html
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/canvasparticles-js@3.2/canvasParticles.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvasparticles-js/canvasParticles.min.js" defer></script>
 </head>
 ```
 
@@ -247,11 +247,11 @@ const options = {
 
 ### Update options on the fly
 
-**Note:** Options changed after the initial class construction without using a setter are not validated. Assigning invalid values will lead to unexpected behavior and system errors.
+**Note:** The new option values are not validated, except for the options with a setter. Assigning invalid values will lead to unexpected behavior and system errors.
 
 #### Using setter
 
-The following options have dedicated setters that must be used to update their values:
+These options require dedicated setters to ensure proper integration.
 
 - options.background
 - options.mouse.connectDistMult
@@ -268,7 +268,7 @@ particles.setParticleColor('hsl(149, 100%, 50%)')
 
 #### Requires particle reset
 
-The following options require `newParticles()` to be called after they are updated to apply changes:
+After being updated, these options must call `newParticles()` to apply the changes:
 
 - options.particles.ppm
 - options.particles.max
@@ -281,7 +281,7 @@ particles.newParticles() // Required reset to apply changes
 
 #### Other
 
-**All** other options can be updated by simply modifying the `options` object properties.
+**All** other options can be updated by modifying the `options` object properties, with changes taking immediate effect.
 
 ```js
 particles.options.mouse.interactionType = 0
@@ -296,7 +296,6 @@ particles.options.gravity.repulsive = 1
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <script src="./canvasParticles.js" defer></script>
     <style>
       #canvas-particles {
         position: absolute;
@@ -312,6 +311,7 @@ particles.options.gravity.repulsive = 1
   <body>
     <canvas id="canvas-particles"></canvas>
 
+    <script src="https://cdn.jsdelivr.net/npm/canvasparticles-js/canvasParticles.min.js"></script>
     <script>
       const selector = '#canvas-particles'
       const options = {
