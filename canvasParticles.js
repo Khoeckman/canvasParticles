@@ -2,7 +2,7 @@
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
 class CanvasParticles {
-  static version = '3.3.7'
+  static version = '3.3.8'
 
   animating = false
   particles = []
@@ -187,7 +187,13 @@ class CanvasParticles {
           // Code in this scope runs [particles ** 2 / 2] times!
           const particleA = this.particles[i]
           const particleB = this.particles[j]
-          const dist = Math.hypot(particleA.posX - particleB.posX, particleA.posY - particleB.posY)
+
+          const distX = particleA.posX - particleB.posX
+          const distY = particleA.posY - particleB.posY
+
+          const dist = Math.sqrt(distX * distX + distY * distY)
+
+          // const dist = Math.hypot(particleA.posX - particleB.posX, particleA.posY - particleB.posY)
 
           if (dist < this.options.particles.connectDist / 2) {
             // Apply repulsive force on all particles close together
