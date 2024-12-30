@@ -2,7 +2,7 @@
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
 export default class CanvasParticles {
-  static version = '3.3.6'
+  static version = '3.3.7'
 
   animating = false
   particles = []
@@ -335,7 +335,7 @@ export default class CanvasParticles {
 
     for (let particle of this.particles) {
       if (particle.isVisible) {
-        // Draw the particle as a square if the size is smaller than 1 pixel (±183% faster than drawing only circles)
+        // Draw the particle as a square if the size is smaller than 1 pixel (±183% faster than drawing only circles, using default settings)
         if (particle.size > 1) {
           // Draw circle
           this.ctx.beginPath()
@@ -453,7 +453,7 @@ export default class CanvasParticles {
     // Check if `ctx.fillStyle` is in hex format ("#RRGGBB" without alpha).
     if (this.ctx.fillStyle[0] === '#') this.options.particles.opacity = 255
     else {
-      // JavaScript's `ctx.fillStyle` ensures the color will otherwise be in rgba format (e.g., "rgba(136, 244, 255, 0.25)"):
+      // JavaScript's `ctx.fillStyle` ensures the color will otherwise be in rgba format (e.g., "rgba(136, 244, 255, 0.25)")
 
       // Extract the alpha value (0.25) from the rgba string, scale it to the range 0x00 to 0xff,
       // and convert it to an integer. This value represents the opacity as a 2-character hex string.
@@ -465,6 +465,6 @@ export default class CanvasParticles {
     this.options.particles.color = this.ctx.fillStyle
     this.options.particles.colorWithAlpha = this.options.particles.color + this.options.particles.opacity.toString(16)
 
-    this.strokeStyleTable = this.generateStrokeStyleTable(this.options.particles.color) // Recalculate the stroke style cache
+    this.strokeStyleTable = this.generateStrokeStyleTable(this.options.particles.color) // Recalculate the stroke style table
   }
 }

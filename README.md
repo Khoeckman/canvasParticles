@@ -12,7 +12,7 @@ Creating a fun and interactive background. Colors, interaction and gravity can b
 [Showcase](#showcase)<br>
 [Implementation](#implementation)<br>
 [Options](#options)<br>
-[Example](#example)
+[Example](#one-pager-example)
 
 ## Showcase
 
@@ -276,7 +276,7 @@ After being updated, these options must call `newParticles()` to apply the chang
 ```js
 particles.options.particles.ppm = 100
 particles.options.particles.max = 300
-particles.newParticles() // Required reset to apply changes
+particles.newParticles() // Required to apply changes
 ```
 
 #### Other
