@@ -1,8 +1,10 @@
 // Copyright (c) 2022–2024 Kyle Hoeckman, MIT License
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
+'use strict'
+
 class CanvasParticles {
-  static version = '3.3.8'
+  static version = '3.3.9'
 
   animating = false
   particles = []
