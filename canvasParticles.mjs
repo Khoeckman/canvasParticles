@@ -171,10 +171,10 @@ export default class CanvasParticles {
   }
 
   /**
-   * Calculates the properties of each particle on the next frame.
+   * Calculates the gravity properties of each particle on the next frame.
    * Is executed once every 'options.framesPerUpdate' frames.
    * */
-  update = () => {
+  updateGravity = () => {
     const len = this.particleCount
     const enabledRepulsive = this.options.gravity.repulsive !== 0
     const enabledPulling = this.options.gravity.pulling !== 0
@@ -188,10 +188,10 @@ export default class CanvasParticles {
           const particleA = this.particles[i]
           const particleB = this.particles[j]
           const dist = Math.hypot(particleA.posX - particleB.posX, particleA.posY - particleB.posY)
-          const angle = Math.atan2(particleB.posY - particleA.posY, particleB.posX - particleA.posX)
 
           if (dist < this.options.particles.connectDist / 2) {
             // Apply repulsive force on all particles close together
+            const angle = Math.atan2(particleB.posY - particleA.posY, particleB.posX - particleA.posX)
             const grav = (1 / Math.max(dist, 10)) ** 1.8 * gravRepulsiveMult
             const gravX = Math.cos(angle) * grav
             const gravY = Math.sin(angle) * grav
@@ -201,6 +201,7 @@ export default class CanvasParticles {
             particleB.velY += gravY
           } else if (enabledPulling) {
             // Apply pulling force on all particles not close together
+            const angle = Math.atan2(particleB.posY - particleA.posY, particleB.posX - particleA.posX)
             const grav = (1 / Math.max(dist, 10)) ** 1.8 * gravPullingMult
             const gravX = Math.cos(angle) * grav
             const gravY = Math.sin(angle) * grav
@@ -212,7 +213,13 @@ export default class CanvasParticles {
         }
       }
     }
+  }
 
+  /**
+   * Calculates the properties of each particle on the next frame.
+   * Is executed once every 'options.framesPerUpdate' frames.
+   * */
+  updateParticles = () => {
     for (let particle of this.particles) {
       // Moving the particle
       particle.dir = (particle.dir + Math.random() * this.options.particles.rotationSpeed * 2 - this.options.particles.rotationSpeed) % (2 * Math.PI)
@@ -324,15 +331,7 @@ export default class CanvasParticles {
     return table
   }
 
-  /**
-   * Renders the particles and their connections onto the canvas.
-   * Connects particles with lines if they are within the connection distance.
-   */
-  render = () => {
-    this.canvas.width = this.canvas.width
-    this.ctx.fillStyle = this.options.particles.colorWithAlpha
-    this.ctx.lineWidth = 1
-
+  renderParticles = () => {
     for (let particle of this.particles) {
       if (particle.isVisible) {
         // Draw the particle as a square if the size is smaller than 1 pixel (±183% faster than drawing only circles, using default settings)
@@ -348,7 +347,12 @@ export default class CanvasParticles {
         }
       }
     }
+  }
 
+  /**
+   * Connects particles with lines if they are within the connection distance.
+   */
+  renderConnections = () => {
     const len = this.particleCount
     const drawAll = this.options.particles.connectDist >= Math.min(this.canvas.width, this.canvas.height)
 
@@ -396,6 +400,18 @@ export default class CanvasParticles {
   }
 
   /**
+   * Clear the canvas and render the particles and their connections onto the canvas.
+   */
+  render = () => {
+    this.canvas.width = this.canvas.width
+    this.ctx.fillStyle = this.options.particles.colorWithAlpha
+    this.ctx.lineWidth = 1
+
+    this.renderParticles()
+    this.renderConnections()
+  }
+
+  /**
    * Main animation loop that updates and renders the particles.
    * Runs recursively using `requestAnimationFrame`.
    */
@@ -406,7 +422,8 @@ export default class CanvasParticles {
 
     if (++this.updateCount >= this.options.framesPerUpdate) {
       this.updateCount = 0
-      this.update()
+      this.updateGravity()
+      this.updateParticles()
       this.render()
     }
   }
