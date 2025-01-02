@@ -101,7 +101,7 @@ class CanvasParticles {
     this.canvas.width = this.canvas.offsetWidth
     this.canvas.height = this.canvas.offsetHeight
 
-    // Hide mouse before first MouseMove event
+    // Prevent the mouse from affecting particles at (x: 0, y: 0) before it has moved.
     this.mouseX = Infinity
     this.mouseY = Infinity
 
@@ -112,10 +112,10 @@ class CanvasParticles {
     this.offY = (this.canvas.height - this.height) / 2
 
     // Amount of particles to be created
-    const particles = ~~((this.options.particles.ppm * this.width * this.height) / 1_000_000)
-    this.particleCount = Math.min(this.options.particles.max, particles)
+    const particleCount = ~~((this.options.particles.ppm * this.width * this.height) / 1_000_000)
+    this.particleCount = Math.min(this.options.particles.max, particleCount)
 
-    if (!isFinite(this.particleCount)) throw new RangeError('number of particles must be finite. check `options.particles.ppm`')
+    if (!isFinite(this.particleCount)) throw new RangeError('number of particles must be finite. (options.particles.ppm)')
 
     if (this.options.resetOnResize || this.particles.length === 0) this.newParticles()
     else this.matchParticleCount()
