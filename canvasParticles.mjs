@@ -2,7 +2,7 @@
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
 export default class CanvasParticles {
-  static version = '3.4.0'
+  static version = '3.4.1'
 
   /**
    * Creates a new CanvasParticles instance.
@@ -327,8 +327,6 @@ export default class CanvasParticles {
     const drawAll = this.options.particles.connectDist >= Math.min(this.canvas.width, this.canvas.height)
 
     const maxWorkPerParticle = this.options.particles.connectDist * this.options.particles.maxWork
-    const maxWork = maxWorkPerParticle * len
-    let work = 0
 
     for (let i = 0; i < len; i++) {
       let particleWork = 0
@@ -363,9 +361,8 @@ export default class CanvasParticles {
         this.ctx.lineTo(particleB.x, particleB.y)
         this.ctx.stroke()
 
-        if ((work += dist) >= maxWork || (particleWork += dist) >= maxWorkPerParticle) break
+        if ((particleWork += dist) >= maxWorkPerParticle) break
       }
-      if (work >= maxWork) break
     }
   }
 

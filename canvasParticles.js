@@ -9,7 +9,7 @@
   typeof self !== 'undefined' ? self : this,
   () =>
     class CanvasParticles {
-      static version = '3.4.0'
+      static version = '3.4.1'
 
       /**
        * Creates a new CanvasParticles instance.
@@ -198,11 +198,14 @@
       #updateParticles = () => {
         for (let particle of this.particles) {
           // Moving the particle
-          particle.dir = (particle.dir + Math.random() * this.options.particles.rotationSpeed * 2 - this.options.particles.rotationSpeed) % (2 * Math.PI)
+          particle.dir =
+            (particle.dir + Math.random() * this.options.particles.rotationSpeed * 2 - this.options.particles.rotationSpeed) % (2 * Math.PI)
           particle.velX *= this.options.gravity.friction
           particle.velY *= this.options.gravity.friction
-          particle.posX = (particle.posX + particle.velX + ((Math.sin(particle.dir) * particle.speed) % this.width) + this.width) % this.width
-          particle.posY = (particle.posY + particle.velY + ((Math.cos(particle.dir) * particle.speed) % this.height) + this.height) % this.height
+          particle.posX =
+            (particle.posX + particle.velX + ((Math.sin(particle.dir) * particle.speed) % this.width) + this.width) % this.width
+          particle.posY =
+            (particle.posY + particle.velY + ((Math.cos(particle.dir) * particle.speed) % this.height) + this.height) % this.height
 
           const distX = particle.posX + this.offX - this.mouseX
           const distY = particle.posY + this.offY - this.mouseY
@@ -334,8 +337,6 @@
         const drawAll = this.options.particles.connectDist >= Math.min(this.canvas.width, this.canvas.height)
 
         const maxWorkPerParticle = this.options.particles.connectDist * this.options.particles.maxWork
-        const maxWork = maxWorkPerParticle * len
-        let work = 0
 
         for (let i = 0; i < len; i++) {
           let particleWork = 0
@@ -370,9 +371,8 @@
             this.ctx.lineTo(particleB.x, particleB.y)
             this.ctx.stroke()
 
-            if ((work += dist) >= maxWork || (particleWork += dist) >= maxWorkPerParticle) break
+            if ((particleWork += dist) >= maxWorkPerParticle) break
           }
-          if (work >= maxWork) break
         }
       }
 
