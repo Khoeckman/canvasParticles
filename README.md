@@ -6,7 +6,7 @@
 
 ## Description
 
-In an HTML canvas, a bunch of floating particles connected with lines when they approach eachother.
+In an HTML canvas, a bunch of floating particles connected with lines when they approach each other.
 Creating a fun and interactive background. Colors, interaction and gravity can be customized!
 
 [Showcase](#showcase)<br>
@@ -59,7 +59,7 @@ Add an inline `<script>` element at the very bottom of the `<body>`.
   <script>
     const initParticles = () => {
       const selector = '#canvas-particles' // Query Selector for the canvas
-      const options = {} // See #options
+      const options = { ... } // See #options
       new CanvasParticles(selector, options).start()
     }
     document.addEventListener('DOMContentLoaded', initParticles)
@@ -89,7 +89,7 @@ Inside _initParticles.js_:
 import CanvasParticles from './canvasParticles.mjs'
 
 const selector = '#canvas-particles' // Query Selector for the canvas
-const options = {} // See #options
+const options = { ... } // See #options
 new CanvasParticles(selector, options).start()
 ```
 
@@ -115,7 +115,7 @@ Add a `<script>` element in the `<head>` to import `CanvasParticles`.
 
 ```js
 const selector = '#canvas-particles' // Query Selector for the canvas
-const options = {} // See #options
+const options = { ... } // See #options
 new CanvasParticles(selector, options).start()
 ```
 
@@ -249,7 +249,7 @@ const options = {
 
 **Note:** The new option values are not validated, except for the options with a setter. Assigning invalid values will lead to unexpected behavior and system errors.
 
-#### Using setter
+#### Using the setter
 
 These options require dedicated setters to ensure proper integration.
 
@@ -266,9 +266,9 @@ particles.setMouseConnectDistMult(0.8)
 particles.setParticleColor('hsl(149, 100%, 50%)')
 ```
 
-#### Requires particle reset
+#### Changing the particle count
 
-After being updated, these options must call `newParticles()` to apply the changes:
+After updating the following options, the number of particles is not automatically adjusted:
 
 - options.particles.ppm
 - options.particles.max
@@ -276,10 +276,13 @@ After being updated, these options must call `newParticles()` to apply the chang
 ```js
 particles.options.particles.ppm = 100
 particles.options.particles.max = 300
-particles.newParticles() // Required to apply changes
+
+// Apply the changes using one of these methods:
+particles.newParticles() // Remove all particles and create the correct amount of new ones
+particles.matchParticleCount() // Add or remove some particles to match the count
 ```
 
-#### Other
+#### Modifying object properties
 
 **All** other options can be updated by modifying the `options` object properties, with changes taking immediate effect.
 
@@ -287,6 +290,15 @@ particles.newParticles() // Required to apply changes
 particles.options.mouse.interactionType = 0
 particles.options.particles.connectDist = 200
 particles.options.gravity.repulsive = 1
+```
+
+#### Updating options object
+
+To update all options for the same class, pass a new options object.
+
+```js
+const options = { ... }
+particles.setOptions(options)
 ```
 
 ## One pager example

@@ -1,11 +1,8 @@
-// Copyright (c) 2022–2024 Kyle Hoeckman, MIT License
+// Copyright (c) 2022–2025 Kyle Hoeckman, MIT License
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
 export default class CanvasParticles {
-  static version = '3.3.9'
-
-  animating = false
-  particles = []
+  static version = '3.4.0'
 
   /**
    * Creates a new CanvasParticles instance.
@@ -22,68 +19,19 @@ export default class CanvasParticles {
     // Get 2d drawing functions
     this.ctx = this.canvas.getContext('2d')
 
-    this.formatOptions(options)
+    this.animating = false
+    this.particles = []
+    this.setOptions(options)
 
     // Event handling
-    window.addEventListener('resize', this.resizeCanvas)
-    this.resizeCanvas()
+    window.addEventListener('resize', this.#resizeCanvas)
+    this.#resizeCanvas()
 
-    window.addEventListener('mousemove', this.updateMousePos)
-    window.addEventListener('scroll', this.updateMousePos)
+    window.addEventListener('mousemove', this.#updateMousePos)
+    window.addEventListener('scroll', this.#updateMousePos)
   }
 
-  formatOptions = options => {
-    // Format and store options
-    this.options = {
-      background: options.background ?? false,
-      framesPerUpdate: Math.max(1, parseInt(options.framesPerUpdate) ?? 1),
-      resetOnResize: !!(options.resetOnResize ?? false),
-      mouse: {
-        interactionType: +(parseInt(options.mouse?.interactionType) ?? 1),
-        connectDistMult: +(options.mouse?.connectDistMult ?? 2 / 3),
-        distRatio: +(options.mouse?.distRatio ?? 2 / 3),
-      },
-      particles: {
-        color: options.particles?.color ?? 'black',
-        ppm: +(options.particles?.ppm ?? 100),
-        max: +(options.particles?.max ?? 500),
-        maxWork: Math.max(0, options.particles?.maxWork ?? Infinity),
-        connectDist: Math.max(1, options.particles?.connectDistance ?? 150),
-        relSpeed: Math.max(0, options.particles?.relSpeed ?? 1),
-        relSize: Math.max(0, options.particles?.relSize ?? 1),
-        rotationSpeed: Math.max(0, (options.particles?.rotationSpeed ?? 2) / 100),
-      },
-      gravity: {
-        repulsive: +(options.gravity?.repulsive ?? 0),
-        pulling: +(options.gravity?.pulling ?? 0),
-        friction: Math.max(0, options.particles?.friction ?? 0.8),
-      },
-    }
-
-    // Use default value if number could not be formatted
-    if (isNaN(this.options.framesPerUpdate)) this.options.framesPerUpdate = 1
-
-    if (isNaN(this.options.mouse.interactionType)) this.options.mouse.interactionType = 1
-    if (isNaN(this.options.mouse.distRatio)) this.options.mouse.distRatio = 2 / 3
-
-    if (isNaN(this.options.particles.ppm)) this.options.particles.ppm = 100
-    if (isNaN(this.options.particles.max)) this.options.particles.max = 500
-    if (isNaN(this.options.particles.maxWork)) this.options.particles.maxWork = Infinity
-    if (isNaN(this.options.particles.connectDist)) this.options.particles.connectDist = 150
-    if (isNaN(this.options.particles.relSpeed)) this.options.particles.relSpeed = 1
-    if (isNaN(this.options.particles.relSize)) this.options.particles.relSize = 1
-    if (isNaN(this.options.particles.rotationSpeed)) this.options.particles.rotationSpeed = 0.02
-
-    if (isNaN(this.options.gravity.repulsive)) this.options.gravity.repulsive = 0
-    if (isNaN(this.options.gravity.pulling)) this.options.gravity.pulling = 0
-    if (isNaN(this.options.gravity.friction)) this.options.gravity.friction = 0.9
-
-    this.setBackground(this.options.background)
-    this.setMouseConnectDistMult(this.options.mouse.connectDistMult)
-    this.setParticleColor(this.options.particles.color)
-  }
-
-  updateMousePos = event => {
+  #updateMousePos = event => {
     if (!this.animating) return
 
     if (event instanceof MouseEvent) {
@@ -95,7 +43,7 @@ export default class CanvasParticles {
     this.mouseY = this.clientY - top
   }
 
-  resizeCanvas = () => {
+  #resizeCanvas = () => {
     this.canvas.width = this.canvas.offsetWidth
     this.canvas.height = this.canvas.offsetHeight
 
@@ -109,16 +57,18 @@ export default class CanvasParticles {
     this.offX = (this.canvas.width - this.width) / 2
     this.offY = (this.canvas.height - this.height) / 2
 
+    if (this.options.resetOnResize || this.particles.length === 0) this.newParticles()
+    else this.matchParticleCount()
+
+    this.#updateParticleBounds()
+  }
+
+  #getParticleCount = () => {
     // Amount of particles to be created
     const particleCount = ~~((this.options.particles.ppm * this.width * this.height) / 1_000_000)
     this.particleCount = Math.min(this.options.particles.max, particleCount)
 
     if (!isFinite(this.particleCount)) throw new RangeError('number of particles must be finite. (options.particles.ppm)')
-
-    if (this.options.resetOnResize || this.particles.length === 0) this.newParticles()
-    else this.matchParticleCount()
-
-    this.updateParticleBounds()
   }
 
   /**
@@ -126,6 +76,8 @@ export default class CanvasParticles {
    * The amount of new particles will match 'options.particles.ppm'
    * */
   newParticles = () => {
+    this.#getParticleCount()
+
     this.particles = []
     for (let i = 0; i < this.particleCount; i++) this.createParticle()
   }
@@ -134,6 +86,8 @@ export default class CanvasParticles {
    * When resizing, add or remove some particles so that the final amount of particles will match 'options.particles.ppm'
    * */
   matchParticleCount = () => {
+    this.#getParticleCount()
+
     this.particles = this.particles.slice(0, this.particleCount)
     while (this.particleCount > this.particles.length) this.createParticle()
   }
@@ -154,10 +108,10 @@ export default class CanvasParticles {
       speed: speed || (0.5 + Math.random() * 0.5) * this.options.particles.relSpeed, // Velocity in pixels per update
       size, // Ray in pixels of the particle
     })
-    this.updateParticleBounds()
+    this.#updateParticleBounds()
   }
 
-  updateParticleBounds = () => {
+  #updateParticleBounds = () => {
     this.particles.map(
       particle =>
         // Within these bounds the particle is considered visible
@@ -174,14 +128,17 @@ export default class CanvasParticles {
    * Calculates the gravity properties of each particle on the next frame.
    * Is executed once every 'options.framesPerUpdate' frames.
    * */
-  updateGravity = () => {
-    const len = this.particleCount
-    const enabledRepulsive = this.options.gravity.repulsive !== 0
-    const enabledPulling = this.options.gravity.pulling !== 0
-    const gravRepulsiveMult = this.options.particles.connectDist * this.options.gravity.repulsive
-    const gravPullingMult = this.options.particles.connectDist * this.options.gravity.pulling
+  #updateGravity = () => {
+    const isRepulsiveEnabled = this.options.gravity.repulsive !== 0
+    const isPullingEnabled = this.options.gravity.pulling !== 0
 
-    if (enabledRepulsive || enabledPulling) {
+    if (isRepulsiveEnabled || isPullingEnabled) {
+      const len = this.particleCount
+      const gravRepulsiveMult = this.options.particles.connectDist * this.options.gravity.repulsive
+      const gravPullingMult = this.options.particles.connectDist * this.options.gravity.pulling
+      const maxRepulsiveDist = this.options.particles.connectDist / 2
+      const maxGrav = this.options.particles.connectDist * 0.1
+
       for (let i = 0; i < len; i++) {
         for (let j = i + 1; j < len; j++) {
           // Code in this scope runs [particles ** 2 / 2] times!
@@ -193,29 +150,35 @@ export default class CanvasParticles {
 
           const dist = Math.sqrt(distX * distX + distY * distY)
 
-          // const dist = Math.hypot(particleA.posX - particleB.posX, particleA.posY - particleB.posY)
+          let angle, grav
 
-          if (dist < this.options.particles.connectDist / 2) {
+          if (dist < maxRepulsiveDist) {
             // Apply repulsive force on all particles close together
-            const angle = Math.atan2(particleB.posY - particleA.posY, particleB.posX - particleA.posX)
-            const grav = (1 / Math.max(dist, 10)) ** 1.8 * gravRepulsiveMult
-            const gravX = Math.cos(angle) * grav
-            const gravY = Math.sin(angle) * grav
+            angle = Math.atan2(particleB.posY - particleA.posY, particleB.posX - particleA.posX)
+            grav = (1 / dist) ** 1.8
+            const gravMult = Math.min(maxGrav, grav * gravRepulsiveMult)
+            const gravX = Math.cos(angle) * gravMult
+            const gravY = Math.sin(angle) * gravMult
             particleA.velX -= gravX
             particleA.velY -= gravY
             particleB.velX += gravX
             particleB.velY += gravY
-          } else if (enabledPulling) {
-            // Apply pulling force on all particles not close together
-            const angle = Math.atan2(particleB.posY - particleA.posY, particleB.posX - particleA.posX)
-            const grav = (1 / Math.max(dist, 10)) ** 1.8 * gravPullingMult
-            const gravX = Math.cos(angle) * grav
-            const gravY = Math.sin(angle) * grav
-            particleA.velX += gravX
-            particleA.velY += gravY
-            particleB.velX -= gravX
-            particleB.velY -= gravY
           }
+
+          if (!isPullingEnabled) continue
+
+          // Apply pulling force on all particles not close together
+          if (angle === undefined) {
+            angle = Math.atan2(particleB.posY - particleA.posY, particleB.posX - particleA.posX)
+            grav = (1 / dist) ** 1.8
+          }
+          const gravMult = Math.min(maxGrav, grav * gravPullingMult)
+          const gravX = Math.cos(angle) * gravMult
+          const gravY = Math.sin(angle) * gravMult
+          particleA.velX += gravX
+          particleA.velY += gravY
+          particleB.velX -= gravX
+          particleB.velY -= gravY
         }
       }
     }
@@ -225,7 +188,7 @@ export default class CanvasParticles {
    * Calculates the properties of each particle on the next frame.
    * Is executed once every 'options.framesPerUpdate' frames.
    * */
-  updateParticles = () => {
+  #updateParticles = () => {
     for (let particle of this.particles) {
       // Moving the particle
       particle.dir = (particle.dir + Math.random() * this.options.particles.rotationSpeed * 2 - this.options.particles.rotationSpeed) % (2 * Math.PI)
@@ -260,7 +223,7 @@ export default class CanvasParticles {
       particle.x += this.offX
       particle.y += this.offY
 
-      particle.gridPos = this.gridPos(particle) // The location of the particle relative to the visible center of the canvas
+      particle.gridPos = this.#gridPos(particle) // The location of the particle relative to the visible center of the canvas
       particle.isVisible = particle.gridPos.x === 1 && particle.gridPos.y === 1
     }
   }
@@ -286,7 +249,7 @@ export default class CanvasParticles {
    * @returns {number} x - The horizontal grid position (0, 1, or 2).
    * @returns {number} y - The vertical grid position (0, 1, or 2).
    */
-  gridPos = particle => {
+  #gridPos = particle => {
     return {
       x: (particle.x >= particle.bounds.left) + (particle.x > particle.bounds.right),
       y: (particle.y >= particle.bounds.top) + (particle.y > particle.bounds.bottom),
@@ -299,7 +262,7 @@ export default class CanvasParticles {
    * @param {Object} particleB - Second particle with {gridPos, isVisible}.
    * @returns {boolean} - True if the line crosses the visible center, false otherwise.
    */
-  isLineVisible(particleA, particleB) {
+  #isLineVisible(particleA, particleB) {
     // Visible if either particle is in the center
     if (particleA.isVisible || particleB.isVisible) return true
 
@@ -318,15 +281,16 @@ export default class CanvasParticles {
    * @returns {Object} - A lookup table mapping each alpha value (0–255) to its corresponding stroke style string in the format `#rrggbbaa`.
    *
    * @example
-   * const strokeStyleTable = generateStrokeStyleTable("#ff0000");
-   * strokeStyleTable[128] -> "#ff000080"
+   * const strokeStyleTable = this.#generateStrokeStyleTable("#abcdef");
+   * strokeStyleTable[128] -> "#abcdef80"
+   * strokeStyleTable[255] -> "#abcdefff"
    *
    * Notes:
    * - This function precomputes all possible stroke styles by appending a two-character
    *   hexadecimal alpha value (0x00–0xFF) to the base color.
    * - The table is stored in `this.strokeStyleTable` for quick lookups.
    */
-  generateStrokeStyleTable = color => {
+  #generateStrokeStyleTable = color => {
     const table = {}
 
     // Precompute stroke styles for alpha values 0–255
@@ -337,7 +301,7 @@ export default class CanvasParticles {
     return table
   }
 
-  renderParticles = () => {
+  #renderParticles = () => {
     for (let particle of this.particles) {
       if (particle.isVisible) {
         // Draw the particle as a square if the size is smaller than 1 pixel (±183% faster than drawing only circles, using default settings)
@@ -358,7 +322,7 @@ export default class CanvasParticles {
   /**
    * Connects particles with lines if they are within the connection distance.
    */
-  renderConnections = () => {
+  #renderConnections = () => {
     const len = this.particleCount
     const drawAll = this.options.particles.connectDist >= Math.min(this.canvas.width, this.canvas.height)
 
@@ -374,7 +338,7 @@ export default class CanvasParticles {
         const particleA = this.particles[i]
         const particleB = this.particles[j]
 
-        if (!(drawAll || this.isLineVisible(particleA, particleB))) continue
+        if (!(drawAll || this.#isLineVisible(particleA, particleB))) continue
         // Draw a line only if will be visible
 
         const distX = particleA.x - particleB.x
@@ -408,31 +372,35 @@ export default class CanvasParticles {
   /**
    * Clear the canvas and render the particles and their connections onto the canvas.
    */
-  render = () => {
+  #render = () => {
     this.canvas.width = this.canvas.width
     this.ctx.fillStyle = this.options.particles.colorWithAlpha
     this.ctx.lineWidth = 1
 
-    this.renderParticles()
-    this.renderConnections()
+    this.#renderParticles()
+    this.#renderConnections()
   }
 
   /**
    * Main animation loop that updates and renders the particles.
    * Runs recursively using `requestAnimationFrame`.
    */
-  animation = () => {
+  #animation = () => {
     if (!this.animating) return
 
-    requestAnimationFrame(() => this.animation())
+    requestAnimationFrame(() => this.#animation())
 
     if (++this.updateCount >= this.options.framesPerUpdate) {
       this.updateCount = 0
-      this.updateGravity()
-      this.updateParticles()
-      this.render()
+      this.#updateGravity()
+      this.#updateParticles()
+      this.#render()
     }
   }
+
+  /**
+   * Public functions
+   */
 
   /**
    * Starts the particle animation.
@@ -441,7 +409,7 @@ export default class CanvasParticles {
   start = () => {
     if (this.animating) return
     this.animating = true
-    requestAnimationFrame(() => this.animation())
+    requestAnimationFrame(() => this.#animation())
   }
 
   /**
@@ -452,6 +420,53 @@ export default class CanvasParticles {
     this.canvas.width = this.canvas.width
   }
 
+  /**
+   * Public setters
+   */
+
+  /**
+   * Set and validate the options object
+   * @param {Object} options - Object structure: https://github.com/Khoeckman/canvasParticles?tab=readme-ov-file#options
+   */
+  setOptions = options => {
+    const defaultIfNaN = (value, defaultValue) => (isNaN(+value) ? defaultValue : +value)
+
+    // Format and store options
+    this.options = {
+      background: options.background ?? false,
+      framesPerUpdate: defaultIfNaN(Math.max(1, parseInt(options.framesPerUpdate)), 1),
+      resetOnResize: !!options.resetOnResize,
+      mouse: {
+        interactionType: defaultIfNaN(parseInt(options.mouse?.interactionType), 1),
+        connectDistMult: defaultIfNaN(options.mouse?.connectDistMult, 2 / 3),
+        distRatio: defaultIfNaN(options.mouse?.distRatio, 2 / 3),
+      },
+      particles: {
+        color: options.particles?.color ?? 'black',
+        ppm: defaultIfNaN(options.particles?.ppm, 100),
+        max: defaultIfNaN(options.particles?.max, 500),
+        maxWork: defaultIfNaN(Math.max(0, options.particles?.maxWork), Infinity),
+        connectDist: defaultIfNaN(Math.max(1, options.particles?.connectDistance), 150),
+        relSpeed: defaultIfNaN(Math.max(0, options.particles?.relSpeed), 1),
+        relSize: defaultIfNaN(Math.max(0, options.particles?.relSize), 1),
+        rotationSpeed: defaultIfNaN(Math.max(0, options.particles?.rotationSpeed / 100), 0.02),
+      },
+      gravity: {
+        repulsive: defaultIfNaN(options.gravity?.repulsive, 0),
+        pulling: defaultIfNaN(options.gravity?.pulling, 0),
+        friction: defaultIfNaN(Math.max(0, Math.min(1, options.particles?.friction)), 0.8),
+      },
+    }
+
+    this.setBackground(this.options.background)
+    this.setMouseConnectDistMult(this.options.mouse.connectDistMult)
+    this.setParticleColor(this.options.particles.color)
+  }
+
+  /**
+   * Set canvas background
+   * @param {string} background - The style of the background. Can be any CSS supported background format.
+   */
   setBackground = background => {
     if (typeof background === 'string') this.canvas.style.background = this.options.background = background
   }
@@ -488,6 +503,6 @@ export default class CanvasParticles {
     this.options.particles.color = this.ctx.fillStyle
     this.options.particles.colorWithAlpha = this.options.particles.color + this.options.particles.opacity.toString(16)
 
-    this.strokeStyleTable = this.generateStrokeStyleTable(this.options.particles.color) // Recalculate the stroke style table
+    this.strokeStyleTable = this.#generateStrokeStyleTable(this.options.particles.color) // Recalculate the stroke style table
   }
 }
