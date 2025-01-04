@@ -1,20 +1,35 @@
 {
   "name": "canvasparticles-js",
-  "version": "3.4.1",
+  "version": "3.4.3",
   "description": "In an HTML canvas, a bunch of interactive particles connected with lines when they approach each other.",
   "main": "canvasParticles.js",
   "module": "canvasParticles.mjs",
+  "types": "canvasParticles.d.ts",
+  "type": "module",
+  "files": [
+    "./canvasParticle.d.ts",
+    "./canvasParticle.js",
+    "./canvasParticle.mjs"
+  ],
   "exports": {
     ".": {
       "require": "./canvasParticles.js",
       "import": "./canvasParticles.mjs"
     }
   },
-  "types": "canvasParticles.d.ts",
-  "type": "module",
   "engines": {
     "node": ">=14"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Khoeckman/canvasParticles.git"
+  },
+  "author": "Kyle Hoeckman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Khoeckman/canvasParticles/issues"
+  },
+  "homepage": "https://canvasparticleshomepage.onrender.com/",
   "keywords": [
     "front-end",
     "frontend",
@@ -40,15 +55,5 @@
     "module",
     "html5",
     "html"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Khoeckman/canvasParticles.git"
-  },
-  "author": "Kyle Hoeckman",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Khoeckman/canvasParticles/issues"
-  },
-  "homepage": "http://kylehoeckman.great-site.net/canvas-particles/"
+  ]
 }
