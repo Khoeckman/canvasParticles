@@ -7,9 +7,9 @@
   "types": "canvasParticles.d.ts",
   "type": "module",
   "files": [
-    "./canvasParticle.d.ts",
-    "./canvasParticle.js",
-    "./canvasParticle.mjs"
+    "./canvasparticles.d.ts",
+    "./canvasParticles.js",
+    "./canvasParticles.mjs"
   ],
   "exports": {
     ".": {
