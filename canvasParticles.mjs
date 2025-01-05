@@ -2,7 +2,7 @@
 // https://github.com/Khoeckman/canvasParticles/blob/main/LICENSE
 
 export default class CanvasParticles {
-  static version = '3.4.4'
+  static version = '3.4.5'
 
   /**
    * Creates a new CanvasParticles instance.
