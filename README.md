@@ -10,14 +10,21 @@ In an HTML canvas, a bunch of floating particles connected with lines when they 
 Creating a fun and interactive background. Colors, interaction and gravity can be customized!
 
 [Showcase](#showcase)<br>
+[Installation](#installation)<br>
 [Implementation](#implementation)<br>
 [Options](#options)<br>
-[Example](#one-pager-example)
+[One pager example](#one-pager-example)
 
 ## Showcase
 
 If you dont like reading documentation this website is for you:<br>
 [https://canvasparticleshomepage.onrender.com/](https://canvasparticleshomepage.onrender.com/)
+
+## Installation
+
+```batch
+npm install canvasparticles-js
+```
 
 ## Implementation
 
@@ -40,37 +47,44 @@ Resize the `<canvas>` so it covers the whole page and place it behind all elemen
 }
 ```
 
-<details>
-  <summary><h3>Import globally</h3></summary>
-  
-  Add a `<script>` element in the `<head>` to import the *canvasParticles.js* file.<br>
-  ```html
-  <head>
-    <script src="./canvasParticles.js" defer></script>
-  </head>
-  ```
+<details open>
+  <summary><h3>Import with npm</h3></summary>
 
-Add an inline `<script>` element at the very bottom of the `<body>`.
+Add a `<script>` element in the `<head>` to import _initParticles.js_.
 
 ```html
-<body>
-  ...
+<head>
+  <script src="./initParticles.js" type="module"></script>
+</head>
+```
 
-  <script>
-    const initParticles = () => {
-      const selector = '#canvas-particles' // Query Selector for the canvas
-      const options = { ... } // See #options
-      new CanvasParticles(selector, options).start()
-    }
-    document.addEventListener('DOMContentLoaded', initParticles)
-  </script>
-</body>
+Inside _initParticles.js_:
+
+```js
+import CanvasParticles from 'canvasparticles-js'
+
+const selector = '#canvas-particles' // Query Selector for the canvas
+const options = { ... } // See #options
+new CanvasParticles(selector, options).start()
 ```
 
 </details>
 
 <details>
-  <summary><h3>Import as ES module</h3></summary>
+  <summary><h3>Import with jsDelivr</h3></summary>
+
+Add a `<script>` element in the `<head>` to import `CanvasParticles`.
+
+```html
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/canvasparticles-js/canvasParticles.min.js" defer></script>
+</head>
+```
+
+</details>
+
+<details>
+  <summary><h3>Import raw file as ES module</h3></summary>
 
 Be aware that using ES modules is only possible when running the application on a (local) server.<br>
 [Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
@@ -96,14 +110,30 @@ new CanvasParticles(selector, options).start()
 </details>
 
 <details>
-  <summary><h3>Import with jsDelivr</h3></summary>
+  <summary><h3>Import raw file globally</h3></summary>
+  
+  Add a `<script>` element in the `<head>` to import the *canvasParticles.js* file.<br>
+  ```html
+  <head>
+    <script src="./canvasParticles.js" defer></script>
+  </head>
+  ```
 
-Add a `<script>` element in the `<head>` to import `CanvasParticles`.
+Add an inline `<script>` element at the very bottom of the `<body>`.
 
 ```html
-<head>
-  <script src="https://cdn.jsdelivr.net/npm/canvasparticles-js/canvasParticles.min.js" defer></script>
-</head>
+<body>
+  ...
+
+  <script>
+    const initParticles = () => {
+      const selector = '#canvas-particles' // Query Selector for the canvas
+      const options = { ... } // See #options
+      new CanvasParticles(selector, options).start()
+    }
+    document.addEventListener('DOMContentLoaded', initParticles)
+  </script>
+</body>
 ```
 
 </details>
