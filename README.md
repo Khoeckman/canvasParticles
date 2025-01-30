@@ -10,7 +10,6 @@ In an HTML canvas, a bunch of floating particles connected with lines when they 
 Creating a fun and interactive background. Colors, interaction and gravity can be customized!
 
 [Showcase](#showcase)<br>
-[Installation](#installation)<br>
 [Implementation](#implementation)<br>
 [Options](#options)<br>
 [One pager example](#one-pager-example)
@@ -19,12 +18,6 @@ Creating a fun and interactive background. Colors, interaction and gravity can b
 
 If you dont like reading documentation this website is for you:<br>
 [https://canvasparticleshomepage.onrender.com/](https://canvasparticleshomepage.onrender.com/)
-
-## Installation
-
-```batch
-npm install canvasparticles-js
-```
 
 ## Implementation
 
@@ -49,6 +42,10 @@ Resize the `<canvas>` so it covers the whole page and place it behind all elemen
 
 <details open>
   <summary><h3>Import with npm</h3></summary>
+
+```batch
+npm install canvasparticles-js
+```
 
 Add a `<script>` element in the `<head>` to import _initParticles.js_.
 
