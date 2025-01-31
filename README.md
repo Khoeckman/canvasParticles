@@ -175,13 +175,17 @@ const options = {
   /** @param {integer} [options.framesPerUpdate=1] - How many times the same frame will be shown before an update happens.
    * @example 60 fps / 2 framesPerUpdate = 30 updates/s
    * @example 144 fps / 3 framesPerUpdate = 48 updates/s
-   * */
+   */
   framesPerUpdate: 1, // recommended: 1 - 3
 
-  /** @param {boolean} [options.resetOnResize=false] - Create new particles when the canvas gets resized.
-   * @info If false, will instead add or remove a few particles to match particles.ppm
-   */
-  resetOnResize: false,
+  /** @param {Object} [options.animation] - Animation settings. */
+  animation: {
+    /** @param {boolean} [options.animation.startOnEnter=true] - Whether to start the animation when the canvas enters the viewport. */
+    startOnEnter: true,
+
+    /** @param {boolean} [options.animation.stopOnLeave=true] - Whether to stop the animation when the canvas leaves the viewport. */
+    stopOnLeave: true,
+  },
 
   /** @param {Object} [options.mouse] - Mouse interaction settings. */
   mouse: {
@@ -247,6 +251,11 @@ const options = {
      * @example 1 rotationSpeed = max direction change of 0.01 radians per update
      */
     rotationSpeed: 1, // recommended: < 10
+
+    /** @param {boolean} [options.particles.regenerateOnResize=false] - Create new particles when the canvas gets resized.
+     * @note If false, will instead add or remove a few particles to match particles.ppm
+     */
+    regenerateOnResize: false,
   },
 
   /** @param {Object} [options.gravity] - Gravitational force settings.
